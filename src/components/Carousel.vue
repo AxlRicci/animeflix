@@ -19,7 +19,7 @@
               v-for="item in items"
               :key="item.attributes.slug"
               class="card-carousel--card"
-              @click="logit(item.attributes.slug)"
+              @click="setSelectedItem(item)"
             >
               <img
                 :src="item.attributes.posterImage.small"
@@ -38,15 +38,26 @@
         "
       ></div>
     </div>
+    <div>
+      <CarouselInfoPanel
+        v-if="this.selectedItem"
+        :itemInfo="selectedItem"
+        :genreList="genreList"
+        @removeSelected="removeSelected"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import ScreenResize from '@/components/renderless/ScreenResize.js'
+import KitsuService from '@/services/KitsuService.js'
+import CarouselInfoPanel from '@/components/CarouselInfoPanel'
 export default {
   name: 'carousel',
   components: {
-    ScreenResize
+    ScreenResize,
+    CarouselInfoPanel
   },
   props: {
     items: {
@@ -65,7 +76,9 @@ export default {
   data() {
     return {
       currentOffset: 0,
-      containerWidth: 0
+      containerWidth: 0,
+      selectedItem: null,
+      genreList: []
     }
   },
   computed: {
@@ -104,6 +117,23 @@ export default {
     logit(spec) {
       console.log('logged', spec)
     },
+    setSelectedItem(item) {
+      this.selectedItem = item
+      console.log(this.selectedItem)
+      this.getGenreList(item.relationships.genres.links.related)
+    },
+    removeSelected() {
+      this.selectedItem = null
+    },
+    getGenreList(param) {
+      KitsuService.getData(param)
+        .then(response => {
+          this.genreList = response.data.data
+        })
+        .catch(error => {
+          console.log('genre gathering error: ', error)
+        })
+    },
     setWindowSize(windowSize) {
       this.containerWidth = windowSize.containerWidth
     }
@@ -129,7 +159,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px 0 40px;
+  margin: 20px 0 10px;
   color: $gray;
 }
 
