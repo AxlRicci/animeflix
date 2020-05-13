@@ -6,6 +6,12 @@
       :items="animeList"
       :scrollInterval="700"
     />
+    <Carousel
+      @nextPage="getAnimes(10)"
+      imgWidth="155"
+      :items="animeList"
+      :scrollInterval="700"
+    />
   </div>
 </template>
 

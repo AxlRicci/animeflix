@@ -1,7 +1,7 @@
 <template>
   <div class="info-panel">
     <div class="info-panel--statistics">
-      <table>
+      <table class="statistics-table">
         <tr v-for="stat in stats" :key="stat.title">
           <th>{{ stat.title }}</th>
           <td>{{ stat.value }}</td>
@@ -18,9 +18,7 @@
             v-for="genre in this.genreList"
             :key="genre.attributes.slug"
             class="overview--genre-list__item"
-          >
-            {{ genre.attributes.name }}
-          </li>
+          >{{ genre.attributes.name }}</li>
         </ul>
       </div>
       <div class="overview--description">
@@ -28,15 +26,13 @@
       </div>
     </div>
     <div class="close">
-      <img
-        @click="removeSelected"
-        src="https://img.icons8.com/metro/26/000000/multiply.png"
-      />
+      <img @click="removeSelected" src="https://img.icons8.com/metro/26/000000/multiply.png" />
     </div>
   </div>
 </template>
 
 <script>
+import gsap from 'gsap'
 export default {
   props: {
     itemInfo: {
@@ -47,6 +43,19 @@ export default {
       type: Array,
       required: true
     }
+  },
+  enter() {
+    gsap.fromTo(
+      '.info-panel',
+      {
+        opacity: '0'
+      },
+      {
+        duration: 3,
+        opacity: '1',
+        backgroundColor: 'black'
+      }
+    )
   },
   methods: {
     removeSelected() {
@@ -162,17 +171,15 @@ export default {
     }
   }
 }
-
-table {
+.statistics-table {
   border-collapse: collapse;
   width: 75%;
   margin: 0 auto;
-}
-
-td,
-th {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
+  td,
+  th {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
 }
 </style>

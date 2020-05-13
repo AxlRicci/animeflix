@@ -39,12 +39,20 @@
       ></div>
     </div>
     <div>
-      <CarouselInfoPanel
-        v-if="this.selectedItem"
-        :itemInfo="selectedItem"
-        :genreList="genreList"
-        @removeSelected="removeSelected"
-      />
+      <transition
+        @beforeEnter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        :css="false"
+      >
+        <CarouselInfoPanel
+          class="carousel-info-panel"
+          v-if="this.selectedItem"
+          :itemInfo="selectedItem"
+          :genreList="genreList"
+          @removeSelected="removeSelected"
+        />
+      </transition>
     </div>
   </div>
 </template>
@@ -53,6 +61,7 @@
 import ScreenResize from '@/components/renderless/ScreenResize.js'
 import KitsuService from '@/services/KitsuService.js'
 import CarouselInfoPanel from '@/components/CarouselInfoPanel'
+import gsap from 'gsap'
 export default {
   name: 'carousel',
   components: {
@@ -136,6 +145,24 @@ export default {
     },
     setWindowSize(windowSize) {
       this.containerWidth = windowSize.containerWidth
+    },
+    beforeEnter(el) {
+      gsap.set(el, {
+        opacity: '0'
+      })
+    },
+    enter(el, done) {
+      gsap.to(el, {
+        duration: 5,
+        opacity: '1',
+        onComplete: done
+      })
+    },
+    leave(el) {
+      gsap.to(el, {
+        duration: 5,
+        opacity: '0'
+      })
     }
   }
 }
@@ -157,6 +184,7 @@ body {
 
 .card-carousel-wrapper {
   display: flex;
+  background-color: #ffffff;
   align-items: center;
   justify-content: center;
   margin: 20px 0 10px;
