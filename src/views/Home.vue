@@ -5,12 +5,16 @@
       imgWidth="155"
       :items="animeList"
       :scrollInterval="700"
+      @panelOpen="toggleInfoPanel('recent')"
+      :panelOpen="infoPanel.recent"
     />
     <Carousel
       @nextPage="getAnimes(10)"
       imgWidth="155"
       :items="animeList"
       :scrollInterval="700"
+      @panelOpen="toggleInfoPanel('trending')"
+      :panelOpen="infoPanel.trending"
     />
   </div>
 </template>
@@ -28,7 +32,11 @@ export default {
     return {
       animeList: [],
       lastCall: '',
-      currentCall: ''
+      currentCall: '',
+      infoPanel: {
+        recent: false,
+        trending: false
+      }
     }
   },
   created() {
@@ -59,6 +67,15 @@ export default {
             console.log(error)
           })
       }
+    },
+    toggleInfoPanel(name) {
+      Object.keys(this.infoPanel).forEach(key => {
+        if (key != name) {
+          this.infoPanel[key] = false
+        } else if (key == name) {
+          this.infoPanel[key] = true
+        }
+      })
     }
   }
 }

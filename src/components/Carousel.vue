@@ -47,7 +47,7 @@
       >
         <CarouselInfoPanel
           class="carousel-info-panel"
-          v-if="this.selectedItem"
+          v-if="this.selectedItem && this.panelOpen"
           :itemInfo="selectedItem"
           :genreList="genreList"
           @removeSelected="removeSelected"
@@ -71,6 +71,10 @@ export default {
   props: {
     items: {
       type: Array,
+      required: true
+    },
+    panelOpen: {
+      type: Boolean,
       required: true
     },
     imgWidth: {
@@ -105,9 +109,6 @@ export default {
     },
     imgStyle() {
       return 'width: ' + this.imgWidth + 'px'
-    },
-    numberOfItems() {
-      return this.items.length
     }
   },
   methods: {
@@ -123,16 +124,14 @@ export default {
         this.$emit('nextPage')
       }
     },
-    logit(spec) {
-      console.log('logged', spec)
-    },
     setSelectedItem(item) {
       this.selectedItem = item
-      console.log(this.selectedItem)
+      this.$emit('panelOpen')
       this.getGenreList(item.relationships.genres.links.related)
     },
     removeSelected() {
       this.selectedItem = null
+      this.activePanel = false
     },
     getGenreList(param) {
       KitsuService.getData(param)
@@ -146,22 +145,29 @@ export default {
     setWindowSize(windowSize) {
       this.containerWidth = windowSize.containerWidth
     },
+    // Info Panel Animations.
     beforeEnter(el) {
       gsap.set(el, {
-        opacity: '0'
+        scaleY: '0',
+        height: '0'
       })
     },
     enter(el, done) {
       gsap.to(el, {
-        duration: 5,
-        opacity: '1',
+        duration: 0.1,
+        transformOrigin: '50% top',
+        scaleY: '1',
+        height: 'auto',
         onComplete: done
       })
     },
-    leave(el) {
+    leave(el, done) {
       gsap.to(el, {
-        duration: 5,
-        opacity: '0'
+        duration: 0.1,
+        scaleY: '0',
+        transformOrigin: '50% top',
+        height: '0',
+        onComplete: done
       })
     }
   }

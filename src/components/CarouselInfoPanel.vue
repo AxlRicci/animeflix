@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import gsap from 'gsap'
 export default {
   props: {
     itemInfo: {
@@ -43,19 +42,6 @@ export default {
       type: Array,
       required: true
     }
-  },
-  enter() {
-    gsap.fromTo(
-      '.info-panel',
-      {
-        opacity: '0'
-      },
-      {
-        duration: 3,
-        opacity: '1',
-        backgroundColor: 'black'
-      }
-    )
   },
   methods: {
     removeSelected() {
