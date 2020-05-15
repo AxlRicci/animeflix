@@ -34,7 +34,7 @@
         class="card-carousel--nav__right"
         @click="
           moveCarousel(1)
-          nextPage()
+          nextPage(10)
         "
       ></div>
     </div>
@@ -47,7 +47,7 @@
       >
         <CarouselInfoPanel
           class="carousel-info-panel"
-          v-if="this.selectedItem && this.panelOpen"
+          v-if="this.selectedItem && this.panelState"
           :itemInfo="selectedItem"
           :genreList="genreList"
           @removeSelected="removeSelected"
@@ -69,17 +69,23 @@ export default {
     CarouselInfoPanel
   },
   props: {
-    items: {
-      type: Array,
+    resource: {
+      type: String,
       required: true
     },
-    panelOpen: {
+    filter: {
+      type: Array
+    },
+    sort: {
+      type: Array
+    },
+    panelState: {
       type: Boolean,
       required: true
     },
     imgWidth: {
       type: String,
-      required: true
+      default: '155'
     },
     scrollInterval: {
       type: Number,
@@ -88,13 +94,46 @@ export default {
   },
   data() {
     return {
-      currentOffset: 0,
-      containerWidth: 0,
+      items: [],
+      genreList: [],
       selectedItem: null,
-      genreList: []
+      next: '',
+      lastCall: '',
+      currentOffset: 0,
+      containerWidth: 0
     }
   },
+  created() {
+    KitsuService.getData(this.dataCall)
+      .then(response => {
+        this.items = response.data.data
+        this.next = response.data.links.next
+        console.log(this.dataCall)
+        console.log(response)
+      })
+      .catch(error => {
+        console.log('Error getting collection: ', error)
+      })
+  },
   computed: {
+    dataCall() {
+      // data params
+      let params = []
+      // define filter
+      if (this.filter) {
+        this.filter.forEach(filter => {
+          let filterStr = `filter%5B${filter.attribute}%5D=${filter.value}`
+          params.push(filterStr)
+        })
+        // params.push(`filter[${this.filterAttribute}]=${this.filterValue}`)
+      }
+      // define sort
+      if (this.sort) {
+        params.push(`sort=${this.sort.join(',')}`)
+      }
+      console.log(`${this.resource}?${params.join('&')}`)
+      return `${this.resource}?${params.join('&')}`
+    },
     atEndOfList() {
       return this.currentOffset < (this.listLength - this.initialSize) * -1
     },
@@ -119,9 +158,26 @@ export default {
         this.currentOffset += this.scrollInterval
       }
     },
-    nextPage() {
-      if (this.atEndOfList === true) {
-        this.$emit('nextPage')
+    nextPage(count) {
+      if (this.atEndOfList) {
+        let currentCall = `https://kitsu.io/api/edge/${
+          this.dataCall
+        }&page%5Blimit%5D=${count}&page%5Boffset%5D=${this.items.length +
+          count -
+          10}`
+        if (this.lastCall !== currentCall) {
+          this.lastCall = currentCall
+          KitsuService.getData(currentCall)
+            .then(response => {
+              response.data.data.forEach(item => {
+                this.items.push(item)
+              })
+              this.lastCall = currentCall
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
       }
     },
     setSelectedItem(item) {
@@ -131,7 +187,6 @@ export default {
     },
     removeSelected() {
       this.selectedItem = null
-      this.activePanel = false
     },
     getGenreList(param) {
       KitsuService.getData(param)

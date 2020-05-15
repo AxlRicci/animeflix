@@ -4,7 +4,7 @@
       <table class="statistics-table">
         <tr v-for="stat in stats" :key="stat.title">
           <th>{{ stat.title }}</th>
-          <td>{{ stat.value }}</td>
+          <td>{{ stat.value ? stat.value : `N/A` }}</td>
         </tr>
       </table>
     </div>
@@ -18,7 +18,9 @@
             v-for="genre in this.genreList"
             :key="genre.attributes.slug"
             class="overview--genre-list__item"
-          >{{ genre.attributes.name }}</li>
+          >
+            {{ genre.attributes.name }}
+          </li>
         </ul>
       </div>
       <div class="overview--description">
@@ -26,7 +28,10 @@
       </div>
     </div>
     <div class="close">
-      <img @click="removeSelected" src="https://img.icons8.com/metro/26/000000/multiply.png" />
+      <img
+        @click="removeSelected"
+        src="https://img.icons8.com/metro/26/000000/multiply.png"
+      />
     </div>
   </div>
 </template>
