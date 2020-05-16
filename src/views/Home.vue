@@ -2,11 +2,45 @@
   <div class="container">
     <div class="trending">
       <Carousel
+        resource="trending/anime"
+        @panelOpen="toggleInfoPanel('recent')"
+        :panelState="carousel.infoPanelState.recent"
+      />
+    </div>
+    <div class="top-airing">
+      <Carousel
         resource="anime"
         :filter="[
           { attribute: 'status', value: 'current' },
-          { attribute: 'averageRating', value: '80..90' }
+          { attribute: 'averageRating', value: '5..' }
         ]"
+        :sort="['popularityRank']"
+        @panelOpen="toggleInfoPanel('recent')"
+        :panelState="carousel.infoPanelState.recent"
+      />
+    </div>
+    <div class="top-upcoming">
+      <Carousel
+        resource="anime"
+        :filter="[{ attribute: 'status', value: 'upcoming' }]"
+        :sort="['popularityRank']"
+        @panelOpen="toggleInfoPanel('recent')"
+        :panelState="carousel.infoPanelState.recent"
+      />
+    </div>
+    <div class="top-rated">
+      <Carousel
+        resource="anime"
+        :filter="[{ attribute: 'averageRating', value: '5..' }]"
+        :sort="['-averageRating']"
+        @panelOpen="toggleInfoPanel('recent')"
+        :panelState="carousel.infoPanelState.recent"
+      />
+    </div>
+    <div class="most-popular">
+      <Carousel
+        resource="anime"
+        :sort="['popularityRank']"
         @panelOpen="toggleInfoPanel('recent')"
         :panelState="carousel.infoPanelState.recent"
       />
