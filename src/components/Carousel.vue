@@ -1,6 +1,9 @@
 <template>
   <div>
     <ScreenResize @resize="setWindowSize" />
+    <div class="card-carousel-title">
+      <h3>{{ this.label }}</h3>
+    </div>
     <div class="card-carousel-wrapper">
       <div class="card-carousel--nav__left" @click="moveCarousel(-1)" :disabled="this.atHeadOfList"></div>
       <div class="card-carousel">
@@ -26,8 +29,9 @@
         class="card-carousel--nav__right"
         @click="
           moveCarousel(1)
-          nextPage(10)
+          nextPage()
         "
+        :disabled="this.atEndOfList"
       ></div>
     </div>
     <div>
@@ -71,12 +75,15 @@ export default {
       required: true
     },
     imgWidth: {
-      type: String,
-      default: '155'
+      type: Number,
+      default: 155
     },
     scrollInterval: {
       type: Number,
       default: 750
+    },
+    label: {
+      type: String
     }
   },
   data() {
@@ -84,7 +91,7 @@ export default {
       items: [],
       genreList: [],
       selectedItem: null,
-      next: '',
+      nextCall: '',
       lastCall: '',
       currentOffset: 0,
       containerWidth: 0
@@ -94,9 +101,7 @@ export default {
     KitsuService.getData(this.dataCall)
       .then(response => {
         this.items = response.data.data
-        this.next = response.data.links.next
-        console.log(this.dataCall)
-        console.log(response)
+        this.nextCall = response.data.links.next
       })
       .catch(error => {
         console.log('Error getting collection: ', error)
@@ -112,7 +117,6 @@ export default {
           let filterStr = `filter%5B${filter.attribute}%5D=${filter.value}`
           params.push(filterStr)
         })
-        // params.push(`filter[${this.filterAttribute}]=${this.filterValue}`)
       }
       // define sort
       if (this.sort) {
@@ -122,16 +126,13 @@ export default {
       return `${this.resource}?${params.join('&')}`
     },
     atEndOfList() {
-      return this.currentOffset < (this.listLength - this.initialSize) * -1
+      return this.currentOffset < this.listLength * -1
     },
     atHeadOfList() {
       return this.currentOffset === 0
     },
     listLength() {
-      return this.items.length * this.imgWidth
-    },
-    initialSize() {
-      return (this.containerWidth / this.imgWidth) * this.imgWidth
+      return this.items.length * (this.imgWidth + 10)
     },
     imgStyle() {
       return 'width: ' + this.imgWidth + 'px'
@@ -139,27 +140,22 @@ export default {
   },
   methods: {
     moveCarousel(direction) {
-      if (direction === 1) {
+      if (direction === 1 && !this.atEndOfList) {
         this.currentOffset -= this.scrollInterval
       } else if (direction === -1 && !this.atHeadOfList) {
         this.currentOffset += this.scrollInterval
       }
     },
-    nextPage(count) {
+    nextPage() {
       if (this.atEndOfList) {
-        let currentCall = `https://kitsu.io/api/edge/${
-          this.dataCall
-        }&page%5Blimit%5D=${count}&page%5Boffset%5D=${this.items.length +
-          count -
-          10}`
-        if (this.lastCall !== currentCall) {
-          this.lastCall = currentCall
-          KitsuService.getData(currentCall)
+        if (this.lastCall !== this.nextCall) {
+          this.lastCall = this.nextCall
+          KitsuService.getData(this.nextCall)
             .then(response => {
               response.data.data.forEach(item => {
                 this.items.push(item)
               })
-              this.lastCall = currentCall
+              this.nextCall = response.data.links.next
             })
             .catch(error => {
               console.log(error)
@@ -229,13 +225,19 @@ body {
   color: $vue-navy;
   font-family: 'Source Sans Pro', sans-serif;
 }
+.card-carousel-title {
+  text-align: left;
+
+  & h3 {
+    margin: 0 0 5px 50px;
+  }
+}
 
 .card-carousel-wrapper {
   display: flex;
   background-color: #ffffff;
   align-items: center;
   justify-content: center;
-  margin: 20px 0 10px;
   color: $gray;
 }
 
@@ -287,12 +289,9 @@ body {
   transform: translatex(0px);
 
   .card-carousel--card {
-    margin: 0 10px;
+    margin: 10px;
     cursor: pointer;
-    box-shadow: 0 4px 15px 0 rgba(40, 44, 53, 0.06),
-      0 2px 2px 0 rgba(40, 44, 53, 0.08);
     background-color: #fff;
-    border-radius: 4px;
     z-index: 3;
     margin-bottom: 2px;
 
@@ -306,8 +305,7 @@ body {
 
     img {
       vertical-align: bottom;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
+      border-radius: 4px;
       transition: opacity 150ms linear;
       user-select: none;
 

@@ -2,6 +2,7 @@
   <div class="container">
     <div class="trending">
       <Carousel
+        label="Trending"
         resource="trending/anime"
         @panelOpen="toggleInfoPanel('recent')"
         :panelState="carousel.infoPanelState.recent"
