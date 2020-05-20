@@ -1,13 +1,6 @@
 <template>
   <div class="info-panel">
-    <div class="info-panel--statistics">
-      <table class="statistics-table">
-        <tr v-for="stat in stats" :key="stat.title">
-          <th>{{ stat.title }}</th>
-          <td>{{ stat.value ? stat.value : `N/A` }}</td>
-        </tr>
-      </table>
-    </div>
+    <div class="info-panel--statistics"></div>
     <div class="info-panel--overview">
       <div class="overview--title">
         <h1>{{ itemInfo.attributes.canonicalTitle }}</h1>
@@ -25,6 +18,15 @@
       </div>
       <div class="overview--description">
         <p>{{ itemInfo.attributes.synopsis }}</p>
+      </div>
+    </div>
+    <div class="info-panel--trailer">
+      <div class="iframe-container">
+        <iframe
+          :src="this.youtubeUrl"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
     <div class="close">
@@ -62,6 +64,9 @@ export default {
       })
       return capitalized.join(' ')
     },
+    youtubeUrl() {
+      return `https://www.youtube-nocookie.com/embed/${this.itemInfo.attributes.youtubeVideoId}?autoplay=1&modestbranding=1&showinfo=0&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0&disablekb=1"`
+    },
     stats() {
       let statistics = [
         { title: 'Rating', value: this.itemInfo.attributes.averageRating },
@@ -88,9 +93,9 @@ export default {
   background: #ffffff;
   border: 1px solid #e0e0e0;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 2fr;
   grid-template-rows: auto;
-  grid-template-areas: 'stats overview';
+  grid-template-areas: 'overview trailer';
   border-radius: 10px;
 
   &--overview {
@@ -104,12 +109,23 @@ export default {
     margin: 20px;
   }
 
-  &--statistics {
+  &--trailer {
+    grid-area: trailer;
+  }
+}
+
+.iframe-container {
+  overflow: hidden;
+  padding-top: 56.25%;
+  position: relative;
+
+  & iframe {
+    border: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
     width: 100%;
-    grid-area: stats;
-    align-self: center;
-    justify-self: center;
-    margin: 20px 10px 20px 20px;
   }
 }
 
