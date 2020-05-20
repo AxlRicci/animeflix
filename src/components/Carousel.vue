@@ -1,11 +1,11 @@
 <template>
   <div>
-    <ScreenResize @resize="setWindowSize" />
-    <div class="card-carousel-title">
-      <h3>{{ this.label }}</h3>
-    </div>
     <div class="card-carousel-wrapper">
-      <div class="card-carousel--nav__left" @click="moveCarousel(-1)" :disabled="this.atHeadOfList"></div>
+      <div
+        class="card-carousel--nav__left"
+        @click="moveCarousel(-1)"
+        :disabled="this.atHeadOfList"
+      ></div>
       <div class="card-carousel">
         <div class="card-carousel--overflow-container">
           <div
@@ -20,7 +20,11 @@
               class="card-carousel--card"
               @click="setSelectedItem(item)"
             >
-              <img :src="item.attributes.posterImage.small" :style="imgStyle" alt />
+              <img
+                :src="item.attributes.posterImage.small"
+                :style="imgStyle"
+                alt
+              />
             </div>
           </div>
         </div>
@@ -35,7 +39,12 @@
       ></div>
     </div>
     <div>
-      <transition @beforeEnter="beforeEnter" @enter="enter" @leave="leave" :css="false">
+      <transition
+        @beforeEnter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        :css="false"
+      >
         <CarouselInfoPanel
           class="carousel-info-panel"
           v-if="this.selectedItem && this.panelState"
@@ -49,14 +58,12 @@
 </template>
 
 <script>
-import ScreenResize from '@/components/renderless/ScreenResize.js'
 import KitsuService from '@/services/KitsuService.js'
 import CarouselInfoPanel from '@/components/CarouselInfoPanel'
 import gsap from 'gsap'
 export default {
   name: 'carousel',
   components: {
-    ScreenResize,
     CarouselInfoPanel
   },
   props: {
@@ -70,20 +77,17 @@ export default {
     sort: {
       type: Array
     },
+    coverNumber: {
+      type: Number,
+      default: 5
+    },
+    gap: {
+      type: Number,
+      default: 5
+    },
     panelState: {
       type: Boolean,
       required: true
-    },
-    imgWidth: {
-      type: Number,
-      default: 155
-    },
-    scrollInterval: {
-      type: Number,
-      default: 750
-    },
-    label: {
-      type: String
     }
   },
   data() {
@@ -94,12 +98,13 @@ export default {
       nextCall: '',
       lastCall: '',
       currentOffset: 0,
-      containerWidth: 0
+      containerWidth: 1792
     }
   },
   created() {
     KitsuService.getData(this.dataCall)
       .then(response => {
+        console.log(response)
         this.items = response.data.data
         this.nextCall = response.data.links.next
       })
@@ -122,20 +127,32 @@ export default {
       if (this.sort) {
         params.push(`sort=${this.sort.join(',')}`)
       }
-      console.log(`${this.resource}?${params.join('&')}`)
       return `${this.resource}?${params.join('&')}`
     },
     atEndOfList() {
-      return this.currentOffset < this.listLength * -1
+      return this.currentOffset < -1 * (this.listLength - this.containerWidth)
     },
     atHeadOfList() {
       return this.currentOffset === 0
     },
     listLength() {
-      return this.items.length * (this.imgWidth + 10)
+      return (
+        this.items.length +
+        this.gap * this.coverNumber +
+        this.items.length * this.width
+      )
+    },
+    scrollInterval() {
+      return this.containerWidth + this.gap
+    },
+    width() {
+      return (
+        (this.containerWidth - this.gap * (this.coverNumber - 1)) /
+        this.coverNumber
+      )
     },
     imgStyle() {
-      return 'width: ' + this.imgWidth + 'px'
+      return 'width: ' + this.width + 'px'
     }
   },
   methods: {
@@ -165,6 +182,7 @@ export default {
     },
     setSelectedItem(item) {
       this.selectedItem = item
+
       this.$emit('panelOpen')
       this.getGenreList(item.relationships.genres.links.related)
     },
@@ -225,13 +243,6 @@ body {
   color: $vue-navy;
   font-family: 'Source Sans Pro', sans-serif;
 }
-.card-carousel-title {
-  text-align: left;
-
-  & h3 {
-    margin: 0 0 5px 50px;
-  }
-}
 
 .card-carousel-wrapper {
   display: flex;
@@ -289,7 +300,7 @@ body {
   transform: translatex(0px);
 
   .card-carousel--card {
-    margin: 10px;
+    margin: 10px 5px 10px 0px;
     cursor: pointer;
     background-color: #fff;
     z-index: 3;

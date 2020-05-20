@@ -2,10 +2,10 @@
   <div class="container">
     <div class="trending">
       <Carousel
-        label="Trending"
         resource="trending/anime"
-        @panelOpen="toggleInfoPanel('recent')"
-        :panelState="carousel.infoPanelState.recent"
+        :coverNumber="5"
+        @panelOpen="toggleInfoPanel('trending')"
+        :panelState="carousel.infoPanelState.trending"
       />
     </div>
     <div class="top-airing">
@@ -16,8 +16,9 @@
           { attribute: 'averageRating', value: '5..' }
         ]"
         :sort="['popularityRank']"
-        @panelOpen="toggleInfoPanel('recent')"
-        :panelState="carousel.infoPanelState.recent"
+        :coverNumber="7"
+        @panelOpen="toggleInfoPanel('topAiring')"
+        :panelState="carousel.infoPanelState.topAiring"
       />
     </div>
     <div class="top-upcoming">
@@ -25,8 +26,9 @@
         resource="anime"
         :filter="[{ attribute: 'status', value: 'upcoming' }]"
         :sort="['popularityRank']"
-        @panelOpen="toggleInfoPanel('recent')"
-        :panelState="carousel.infoPanelState.recent"
+        :coverNumber="7"
+        @panelOpen="toggleInfoPanel('topUpcoming')"
+        :panelState="carousel.infoPanelState.topUpcoming"
       />
     </div>
     <div class="top-rated">
@@ -34,16 +36,18 @@
         resource="anime"
         :filter="[{ attribute: 'averageRating', value: '5..' }]"
         :sort="['-averageRating']"
-        @panelOpen="toggleInfoPanel('recent')"
-        :panelState="carousel.infoPanelState.recent"
+        :coverNumber="7"
+        @panelOpen="toggleInfoPanel('topRated')"
+        :panelState="carousel.infoPanelState.topRated"
       />
     </div>
     <div class="most-popular">
       <Carousel
         resource="anime"
         :sort="['popularityRank']"
-        @panelOpen="toggleInfoPanel('recent')"
-        :panelState="carousel.infoPanelState.recent"
+        :coverNumber="7"
+        @panelOpen="toggleInfoPanel('mostPopular')"
+        :panelState="carousel.infoPanelState.mostPopular"
       />
     </div>
   </div>
@@ -60,8 +64,11 @@ export default {
     return {
       carousel: {
         infoPanelState: {
-          recent: false,
-          trending: false
+          trending: false,
+          topAiring: false,
+          topUpcoming: false,
+          topRated: false,
+          mostPopular: false
         }
       }
     }
@@ -80,4 +87,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  width: 95%;
+  margin: 0 auto;
+  justify-items: center;
+  flex-direction: column;
+}
+</style>
