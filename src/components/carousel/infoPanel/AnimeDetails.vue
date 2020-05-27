@@ -1,7 +1,10 @@
 <template>
   <div class="overview-details--wrapper">
     <div class="overview-details--item overview-details__rating">
-      <h4>{{ anime.attributes.averageRating }}%</h4>
+      <span class="rating-item">
+        <h4>{{ anime.attributes.averageRating }}%</h4>
+        <img class="thumb-icon" src="../../../assets/thumb_up.svg" alt />
+      </span>
     </div>
     <div class="overview-details--item overview-details__year">
       <h4>{{ anime.attributes.startDate.split('-')[0] }}</h4>
@@ -49,6 +52,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: start;
+    align-items: center;
   }
 
   &--item {
@@ -62,5 +66,17 @@ export default {
   &__rating {
     color: green;
   }
+}
+
+.rating-item {
+  display: flex;
+
+  & h4 {
+    margin: 2px 5px 2px 2px;
+  }
+}
+
+.thumb-icon {
+  height: 24px;
 }
 </style>
