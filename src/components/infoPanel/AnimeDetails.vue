@@ -53,6 +53,10 @@ export default {
 
   &--item {
     margin-right: 30px;
+
+    & h4 {
+      margin: 0;
+    }
   }
 
   &__rating {

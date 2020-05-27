@@ -71,13 +71,13 @@ export default {
   background: #000000;
   color: #fff;
   display: grid;
-  grid-template-columns: 3fr 5fr;
+  grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 'overview trailer';
-  border-radius: 10px;
 
   &--overview {
-    grid-area: overview;
+    grid-column: 1/6;
+    grid-row: 1/2;
+    z-index: 1;
     display: grid;
     grid-template-rows: repeat(4, min-content);
     grid-template-areas:
@@ -90,7 +90,8 @@ export default {
   }
 
   &--trailer {
-    grid-area: trailer;
+    grid-column: 6/13;
+    grid-row: 1/2;
   }
 }
 
@@ -107,26 +108,32 @@ export default {
   &--title {
     grid-area: title;
     text-align: left;
+    margin: 13px 0 0 0;
 
     & h1 {
-      margin: 0px 0 10px 0;
+      margin: 0;
+      font-size: 50px;
     }
   }
 
   &--details {
     grid-area: details;
+    margin: 0 0 7px 0;
   }
 
   &--synopsis {
     grid-area: synopsis;
+    margin: 7px 0;
   }
 
   &--actions {
     grid-area: actions;
+    margin: 7px 0;
   }
 
   &--credits {
     grid-area: credits;
+    margin: 13px 0 13px 0;
   }
 }
 </style>

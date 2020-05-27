@@ -36,5 +36,9 @@ export default {
 .overview-synopsis--wrapper {
   text-align: left;
   color: #999;
+
+  & p {
+    margin: 0;
+  }
 }
 </style>
