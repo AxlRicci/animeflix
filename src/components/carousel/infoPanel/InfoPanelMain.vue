@@ -1,24 +1,19 @@
 <template>
   <div class="info-panel">
-    <div class="info-panel--statistics"></div>
     <div class="info-panel--overview">
       <div class="overview--title">
         <h1>{{ itemInfo.attributes.canonicalTitle }}</h1>
       </div>
       <div class="overview--details">
-        <!-- component -->
         <AnimeDetails :anime="itemInfo" />
       </div>
       <div class="overview--synopsis">
-        <!-- component -->
         <AnimeSynopsis :anime="itemInfo" />
       </div>
       <div class="overview--actions">
-        <!-- component -->
         <AnimeActions />
       </div>
       <div class="overview--credits">
-        <!-- component -->
         <AnimeCredits :anime="itemInfo" />
       </div>
     </div>
@@ -33,11 +28,11 @@
 </template>
 
 <script>
-import AnimeDetails from '@/components/infoPanel/AnimeDetails'
-import AnimeSynopsis from '@/components/infoPanel/AnimeSynopsis'
-import AnimeActions from '@/components/infoPanel/AnimeActions'
-import AnimeCredits from '@/components/infoPanel/AnimeCredits'
-import AnimeTrailer from '@/components/infoPanel/AnimeTrailer'
+import AnimeDetails from '@/components/carousel/infoPanel/AnimeDetails'
+import AnimeSynopsis from '@/components/carousel/infoPanel/AnimeSynopsis'
+import AnimeActions from '@/components/carousel/infoPanel/AnimeActions'
+import AnimeCredits from '@/components/carousel/infoPanel/AnimeCredits'
+import AnimeTrailer from '@/components/carousel/infoPanel/AnimeTrailer'
 
 export default {
   components: {

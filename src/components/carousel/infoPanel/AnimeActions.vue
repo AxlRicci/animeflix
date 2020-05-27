@@ -2,13 +2,13 @@
   <div class="overview-actions--wrapper">
     <button class="overview-actions--item overview-actions--item__stream">
       <span class="button button--play">
-        <img class="button-icon" src="../../assets/play_arrow.svg" alt />
+        <img class="button-icon" src="../../../assets/play_arrow.svg" alt />
         <p>Play</p>
       </span>
     </button>
     <button class="overview-actions--item overview-actions--item__list">
       <span class="button button--add">
-        <img class="button-icon" src="../../assets/add.svg" alt />
+        <img class="button-icon" src="../../../assets/add.svg" alt />
         <p>My List</p>
       </span>
     </button>

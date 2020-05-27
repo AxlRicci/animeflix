@@ -32,7 +32,7 @@
     </div>
     <div>
       <transition @beforeEnter="beforeEnter" @enter="enter" @leave="leave" :css="false">
-        <CarouselInfoPanel
+        <InfoPanel
           class="carousel-info-panel"
           v-if="this.selectedItem && this.panelState"
           :itemInfo="selectedItem"
@@ -46,12 +46,12 @@
 
 <script>
 import KitsuService from '@/services/KitsuService.js'
-import CarouselInfoPanel from '@/components/CarouselInfoPanel'
+import InfoPanel from '@/components/carousel/infoPanel/InfoPanel'
 import gsap from 'gsap'
 export default {
   name: 'carousel',
   components: {
-    CarouselInfoPanel
+    InfoPanel
   },
   props: {
     resource: {
