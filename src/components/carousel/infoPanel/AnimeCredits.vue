@@ -136,6 +136,8 @@ export default {
   & p {
     margin: 0;
     color: #999;
+    font-size: 20px;
+    line-height: 1.3;
   }
 }
 </style>

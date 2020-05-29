@@ -2,13 +2,21 @@
   <div class="overview-actions--wrapper">
     <button class="overview-actions--item overview-actions--item__stream">
       <span class="button button--play">
-        <img class="button-icon" src="../../../assets/play_arrow.svg" alt />
+        <img
+          class="button-icon button-icon--play"
+          src="../../../assets/play_arrow.svg"
+          alt
+        />
         <p>Play</p>
       </span>
     </button>
     <button class="overview-actions--item overview-actions--item__list">
       <span class="button button--add">
-        <img class="button-icon" src="../../../assets/add.svg" alt />
+        <img
+          class="button-icon button-icon--add"
+          src="../../../assets/add.svg"
+          alt
+        />
         <p>My List</p>
       </span>
     </button>
@@ -26,11 +34,15 @@ export default {}
     justify-items: start;
   }
   &--item {
-    margin-right: 10px;
-    padding: 7px 20px;
+    margin-right: 14px;
+    padding: 9px 26px;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    cursor: pointer;
+
+    & p {
+      font-size: 24px;
+    }
 
     &__stream {
       background-color: #fff;
@@ -49,11 +61,12 @@ export default {}
   margin: 0px;
 
   & p {
-    margin: 2px;
+    margin: auto 0;
   }
 
   &-icon {
-    height: 24px;
+    height: 34px;
+    margin: auto 0;
   }
 }
 </style>

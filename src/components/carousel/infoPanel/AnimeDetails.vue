@@ -60,11 +60,17 @@ export default {
 
     & h4 {
       margin: 0;
+      font-size: 22px;
     }
   }
 
   &__rating {
     color: green;
+  }
+
+  &__age {
+    border: 1px solid #fff;
+    padding: 0 8.4px;
   }
 }
 

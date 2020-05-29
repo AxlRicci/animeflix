@@ -1,6 +1,6 @@
 <template>
   <div class="overview-synopsis--wrapper">
-    <p>{{ this.clippedSynopsis }}</p>
+    <p>{{ clippedSynopsis }}</p>
   </div>
 </template>
 
@@ -39,6 +39,8 @@ export default {
 
   & p {
     margin: 0;
+    font-size: 22px;
+    line-height: 1.3;
   }
 }
 </style>

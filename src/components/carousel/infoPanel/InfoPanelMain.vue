@@ -2,7 +2,7 @@
   <div class="info-panel">
     <div class="info-panel--overview">
       <div class="overview--title">
-        <h1>{{ itemInfo.attributes.canonicalTitle }}</h1>
+        <AnimeTitle :anime="itemInfo" />
       </div>
       <div class="overview--details">
         <AnimeDetails :anime="itemInfo" />
@@ -16,13 +16,12 @@
       <div class="overview--credits">
         <AnimeCredits :anime="itemInfo" />
       </div>
+      <div class="close">
+        <img @click="removeSelected" src="../../../assets/clear.svg" />
+      </div>
     </div>
     <div class="info-panel--trailer">
-      <!-- component -->
       <AnimeTrailer :anime="itemInfo" />
-    </div>
-    <div class="close">
-      <img @click="removeSelected" src="https://img.icons8.com/metro/26/000000/multiply.png" />
     </div>
   </div>
 </template>
@@ -33,6 +32,7 @@ import AnimeSynopsis from '@/components/carousel/infoPanel/AnimeSynopsis'
 import AnimeActions from '@/components/carousel/infoPanel/AnimeActions'
 import AnimeCredits from '@/components/carousel/infoPanel/AnimeCredits'
 import AnimeTrailer from '@/components/carousel/infoPanel/AnimeTrailer'
+import AnimeTitle from '@/components/carousel/infoPanel/AnimeTitle'
 
 export default {
   components: {
@@ -40,7 +40,8 @@ export default {
     AnimeSynopsis,
     AnimeActions,
     AnimeCredits,
-    AnimeTrailer
+    AnimeTrailer,
+    AnimeTitle
   },
   props: {
     itemInfo: {
@@ -91,39 +92,33 @@ export default {
 }
 
 .close {
-  position: absolute;
-  top: 0;
-  right: 0;
+  grid-area: title;
+  justify-self: end;
+  cursor: pointer;
   & img {
-    margin: 10px;
+    height: 34px;
   }
 }
 
 .overview {
   &--title {
     grid-area: title;
-    text-align: left;
-    margin: 13px 0 0 0;
-
-    & h1 {
-      margin: 0;
-      font-size: 50px;
-    }
+    margin: 13px 0 9px 0;
   }
 
   &--details {
     grid-area: details;
-    margin: 0 0 7px 0;
+    margin: 9px 0;
   }
 
   &--synopsis {
     grid-area: synopsis;
-    margin: 7px 0;
+    margin: 9px 0;
   }
 
   &--actions {
     grid-area: actions;
-    margin: 7px 0;
+    margin: 9px 0;
   }
 
   &--credits {
