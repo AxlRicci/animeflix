@@ -103,7 +103,7 @@ export default {
 .overview {
   &--title {
     grid-area: title;
-    margin: 13px 0 9px 0;
+    margin-bottom: 9px;
   }
 
   &--details {
