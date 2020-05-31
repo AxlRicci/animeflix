@@ -1,6 +1,13 @@
 <template>
-  <div class="trailer-container">
+  <div class="trailer-container cover-image">
+    <img
+      v-if="!trailerVarified"
+      :src="this.anime.attributes.coverImage.original"
+      class="cover-image"
+      alt=""
+    />
     <iframe
+      v-if="trailerVarified"
       :src="this.youtubeUrl"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
@@ -9,12 +16,28 @@
 </template>
 
 <script>
+import YoutubeService from '@/services/YoutubeService.js'
 export default {
   props: {
     anime: {
       type: Object,
       required: true
     }
+  },
+  data() {
+    return {
+      trailerVarified: true
+    }
+  },
+  created() {
+    YoutubeService.verifyVideo(this.anime.attributes.youtubeVideoId)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(err => {
+        console.error('error verifying video', err)
+        this.trailerVarified = false
+      })
   },
   computed: {
     youtubeUrl() {
@@ -39,6 +62,13 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
+  }
+}
+.cover-image {
+  padding-top: 0;
+
+  & img {
+    height: 600px;
   }
 }
 </style>

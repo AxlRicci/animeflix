@@ -150,6 +150,7 @@ export default {
     },
     selectItem(id) {
       this.selectedItem = this.items.filter(item => item.id == id.id)[0]
+      console.log(this.selectedItem)
       this.$emit('panelOpen')
     },
     // gsap animations for info panel
