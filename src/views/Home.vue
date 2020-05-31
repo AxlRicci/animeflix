@@ -1,6 +1,11 @@
 <template>
   <div class="container">
     <div class="trending">
+      <TitleCarousel
+        resource="anime"
+        @panelOpen="toggleInfoPanel('test')"
+        :panelState="carousel.infoPanelState.test"
+      />
       <Carousel
         resource="trending/anime"
         :coverNumber="5"
@@ -55,10 +60,12 @@
 
 <script>
 import Carousel from '@/components/carousel/Carousel'
+import TitleCarousel from '@/components/carousel/TitleCarousel'
 export default {
   name: 'Home',
   components: {
-    Carousel
+    Carousel,
+    TitleCarousel
   },
   data() {
     return {
@@ -68,7 +75,8 @@ export default {
           topAiring: false,
           topUpcoming: false,
           topRated: false,
-          mostPopular: false
+          mostPopular: false,
+          test: false
         }
       }
     }
@@ -91,6 +99,7 @@ export default {
 .container {
   display: flex;
   width: 95%;
+  max-width: 1920px;
   margin: 0 auto;
   justify-items: center;
   flex-direction: column;

@@ -1,10 +1,16 @@
 <template>
   <div class="info-panel--wrapper">
-    <InfoPanelMain
+    <InfoPanelOverview
       v-if="this.view.overview"
       class="info-panel--view info-panel--view__overview"
       @removeSelected="removeSelected"
-      :itemInfo="itemInfo"
+      :itemInfo="this.item"
+    />
+    <InfoPanelEpisodes
+      v-if="this.view.episodes"
+      class="info-panel--view info-panel--view__episodes"
+      @removeSelected="removeSelected"
+      :anime="this.item"
     />
     <InfoPanelNavbar class="info-panel--navbar" @selectedView="selectView" />
   </div>
@@ -14,15 +20,17 @@
 
 <script>
 import InfoPanelNavbar from '@/components/carousel/infoPanel/InfoPanelNavbar'
-import InfoPanelMain from '@/components/carousel/infoPanel/InfoPanelMain'
+import InfoPanelOverview from '@/components/carousel/infoPanel/InfoPanelOverview'
+import InfoPanelEpisodes from '@/components/carousel/infoPanel/InfoPanelEpisodes'
 
 export default {
   components: {
-    InfoPanelMain,
-    InfoPanelNavbar
+    InfoPanelOverview,
+    InfoPanelNavbar,
+    InfoPanelEpisodes
   },
   props: {
-    itemInfo: {
+    item: {
       type: Object,
       required: true
     }
@@ -61,6 +69,7 @@ export default {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: auto auto;
+    background: #000;
   }
 
   &--view {

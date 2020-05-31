@@ -65,6 +65,9 @@ export default {
 
 <style lang="scss" scoped>
 .ip-navbar {
+  &--wrapper {
+    width: 100%;
+  }
   &--list {
     list-style-type: none;
     display: flex;

@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'AnimeTitle',
   props: {
     anime: {
       type: Object,

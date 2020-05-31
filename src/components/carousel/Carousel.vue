@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div class="anime-display">
     <div class="card-carousel-wrapper">
-      <div class="card-carousel--nav__left" @click="moveCarousel(-1)" :disabled="this.atHeadOfList"></div>
+      <div
+        class="card-carousel--nav__left"
+        @click="moveCarousel(-1)"
+        :disabled="this.atHeadOfList"
+      ></div>
       <div class="card-carousel">
         <div class="card-carousel--overflow-container">
           <div
@@ -16,7 +20,11 @@
               class="card-carousel--card"
               @click="setSelectedItem(item)"
             >
-              <img :src="item.attributes.posterImage.small" :style="imgStyle" alt />
+              <img
+                :src="item.attributes.posterImage.small"
+                :style="imgStyle"
+                alt
+              />
             </div>
           </div>
         </div>
@@ -31,7 +39,12 @@
       ></div>
     </div>
     <div>
-      <transition @beforeEnter="beforeEnter" @enter="enter" @leave="leave" :css="false">
+      <transition
+        @beforeEnter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        :css="false"
+      >
         <InfoPanel
           class="carousel-info-panel"
           v-if="this.selectedItem && this.panelState"
@@ -229,6 +242,10 @@ body {
   background: $light-gray;
   color: $vue-navy;
   font-family: 'Source Sans Pro', sans-serif;
+}
+
+.anime-display {
+  max-width: 100%;
 }
 
 .card-carousel-wrapper {
