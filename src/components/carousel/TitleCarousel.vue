@@ -20,7 +20,10 @@
         />
       </Slide>
     </Carousel>
-    <div>
+    <div
+      v-if="this.selectedItem && this.panelState"
+      class="carousel-info-panel--wrapper"
+    >
       <transition
         @beforeEnter="beforeEnter"
         @enter="enter"
@@ -183,6 +186,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.carousel-info-panel--wrapper {
+  height: 588px;
+}
 .img {
   width: 354px;
   height: auto;

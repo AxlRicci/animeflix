@@ -1,14 +1,19 @@
 <template>
   <div
     :class="{
-      'trailer-container': trailerVarified,
-      'image-container': !trailerVarified
+      'trailer--container': trailerVarified,
+      'cover-image--container': !trailerVarified,
+      'poster-image--container': !coverImageAvailable
     }"
   >
     <img
       v-if="this.trailerVarified == false"
-      :src="this.anime.attributes.coverImage.original"
+      :src="this.coverImageSrc"
       class="cover-image"
+      :class="{
+        'cover-image': coverImageAvailable,
+        'poster-image': !coverImageAvailabe
+      }"
       alt=""
     />
     <iframe
@@ -31,25 +36,18 @@ export default {
   },
   data() {
     return {
-      trailerVarified: ''
+      trailerVarified: '',
+      coverImageAvailabe: '',
+      coverImageSrc: ''
+    }
+  },
+  watch: {
+    anime: function() {
+      this.youtubeVarification()
     }
   },
   created() {
-    YoutubeService.verifyVideo(this.anime.attributes.youtubeVideoId)
-      .then(response => {
-        console.log(response)
-        if (response.data.items.length > 0) {
-          if (response.data.items[0].status.privacyStatus == 'public') {
-            this.trailerVarified = true
-          }
-        } else {
-          this.trailerVarified = false
-          // call method to set correct cover image.
-        }
-      })
-      .catch(err => {
-        console.error('error verifying video', err)
-      })
+    this.youtubeVarification()
   },
   computed: {
     youtubeUrl() {
@@ -57,12 +55,39 @@ export default {
       return `https://www.youtube-nocookie.com/embed/${this.anime.attributes.youtubeVideoId}?autoplay=0&modestbranding=1&showinfo=0&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0&disablekb=1"`
     }
   },
-  methods: {}
+  methods: {
+    coverImageFinder() {
+      if (this.anime.attributes.coverImage) {
+        this.coverImageAvailabe = true
+        this.coverImageSrc = this.anime.attributes.coverImage.original
+      } else {
+        this.coverImageAvailable = false
+        this.coverImageSrc = this.anime.attributes.posterImage.small
+      }
+    },
+    youtubeVarification() {
+      YoutubeService.verifyVideo(this.anime.attributes.youtubeVideoId)
+        .then(response => {
+          console.log(response)
+          if (response.data.items.length > 0) {
+            if (response.data.items[0].status.privacyStatus == 'public') {
+              this.trailerVarified = true
+            }
+          } else {
+            this.trailerVarified = false
+            this.coverImageFinder()
+          }
+        })
+        .catch(err => {
+          console.error('error verifying video', err)
+        })
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.trailer-container {
+.trailer--container {
   overflow: hidden;
   padding-top: 56.25%;
   position: relative;
@@ -78,12 +103,20 @@ export default {
   }
 }
 
-.image-container {
-  padding-top: 0;
+.cover-image--container {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
 
-  & img {
-    height: 600px;
-    width: 100%;
-  }
+.cover-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.poster-image {
+  height: auto;
+  width: 354px;
 }
 </style>

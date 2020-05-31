@@ -68,17 +68,18 @@ export default {
   &--wrapper {
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: auto auto;
+    grid-template-rows: repeat(12, 1fr);
     background: #000;
+    height: 100%;
   }
 
   &--view {
-    grid-row: 1/3;
+    grid-row: 1/12;
     grid-column: 1/2;
   }
 
   &--navbar {
-    grid-row: 2/3;
+    grid-row: 12/13;
     grid-column: 1/2;
     z-index: 1;
     background: linear-gradient(

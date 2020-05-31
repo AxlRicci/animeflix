@@ -68,7 +68,7 @@ export default {
   color: #fff;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto;
+  grid-template-rows: 100%;
 
   &--overview {
     grid-column: 1/6;
