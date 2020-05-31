@@ -4,7 +4,7 @@
       <TitleCarousel
         resource="trending/anime"
         :perPage="5"
-        :imgWidth="354"
+        imgWidth="354"
         @panelOpen="toggleInfoPanel('trending')"
         :panelState="carousel.infoPanelState.trending"
       />

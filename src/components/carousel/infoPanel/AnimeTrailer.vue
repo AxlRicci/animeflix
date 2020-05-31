@@ -1,13 +1,18 @@
 <template>
-  <div class="trailer-container cover-image">
+  <div
+    :class="{
+      'trailer-container': trailerVarified,
+      'image-container': !trailerVarified
+    }"
+  >
     <img
-      v-if="!trailerVarified"
+      v-if="this.trailerVarified == false"
       :src="this.anime.attributes.coverImage.original"
       class="cover-image"
       alt=""
     />
     <iframe
-      v-if="trailerVarified"
+      v-if="this.trailerVarified"
       :src="this.youtubeUrl"
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
@@ -26,17 +31,24 @@ export default {
   },
   data() {
     return {
-      trailerVarified: true
+      trailerVarified: ''
     }
   },
   created() {
     YoutubeService.verifyVideo(this.anime.attributes.youtubeVideoId)
       .then(response => {
         console.log(response)
+        if (response.data.items.length > 0) {
+          if (response.data.items[0].status.privacyStatus == 'public') {
+            this.trailerVarified = true
+          }
+        } else {
+          this.trailerVarified = false
+          // call method to set correct cover image.
+        }
       })
       .catch(err => {
         console.error('error verifying video', err)
-        this.trailerVarified = false
       })
   },
   computed: {
@@ -44,7 +56,8 @@ export default {
       // changed autoplay to 0 for dev -- return to 1 for production.
       return `https://www.youtube-nocookie.com/embed/${this.anime.attributes.youtubeVideoId}?autoplay=0&modestbranding=1&showinfo=0&rel=0&cc_load_policy=1&iv_load_policy=3&fs=0&color=white&controls=0&disablekb=1"`
     }
-  }
+  },
+  methods: {}
 }
 </script>
 
@@ -64,11 +77,13 @@ export default {
     width: 100%;
   }
 }
-.cover-image {
+
+.image-container {
   padding-top: 0;
 
   & img {
     height: 600px;
+    width: 100%;
   }
 }
 </style>

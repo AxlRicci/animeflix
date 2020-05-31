@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'https://cors-anywhere.herokuapp.com/https://img.youtube.com/vi/',
+  baseURL: 'https://www.googleapis.com/youtube/v3/',
   withCredentials: false,
   headers: {
     Accept: 'image/jpeg',
@@ -11,7 +11,9 @@ const apiClient = axios.create({
 
 export default {
   // add call methods here. below is sample of form.
-  verifyVideo(params) {
-    return apiClient.get(`${params}/0.jpg`)
+  verifyVideo(videoId) {
+    return apiClient.get(
+      `videos?id=${videoId}&part=status&key=${process.env.VUE_APP_YT_KEY}`
+    )
   }
 }
