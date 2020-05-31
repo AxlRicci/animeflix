@@ -2,55 +2,51 @@
   <div class="container">
     <div class="trending">
       <TitleCarousel
-        resource="anime"
-        @panelOpen="toggleInfoPanel('test')"
-        :panelState="carousel.infoPanelState.test"
-      />
-      <Carousel
         resource="trending/anime"
-        :coverNumber="5"
+        :perPage="5"
+        :imgWidth="354"
         @panelOpen="toggleInfoPanel('trending')"
         :panelState="carousel.infoPanelState.trending"
       />
     </div>
     <div class="top-airing">
-      <Carousel
+      <TitleCarousel
         resource="anime"
         :filter="[
           { attribute: 'status', value: 'current' },
           { attribute: 'averageRating', value: '5..' }
         ]"
         :sort="['popularityRank']"
-        :coverNumber="7"
+        :perPage="7"
         @panelOpen="toggleInfoPanel('topAiring')"
         :panelState="carousel.infoPanelState.topAiring"
       />
     </div>
     <div class="top-upcoming">
-      <Carousel
+      <TitleCarousel
         resource="anime"
         :filter="[{ attribute: 'status', value: 'upcoming' }]"
         :sort="['popularityRank']"
-        :coverNumber="7"
+        :perPage="7"
         @panelOpen="toggleInfoPanel('topUpcoming')"
         :panelState="carousel.infoPanelState.topUpcoming"
       />
     </div>
     <div class="top-rated">
-      <Carousel
+      <TitleCarousel
         resource="anime"
         :filter="[{ attribute: 'averageRating', value: '5..' }]"
         :sort="['-averageRating']"
-        :coverNumber="7"
+        :perPage="7"
         @panelOpen="toggleInfoPanel('topRated')"
         :panelState="carousel.infoPanelState.topRated"
       />
     </div>
     <div class="most-popular">
-      <Carousel
+      <TitleCarousel
         resource="anime"
         :sort="['popularityRank']"
-        :coverNumber="7"
+        :perPage="7"
         @panelOpen="toggleInfoPanel('mostPopular')"
         :panelState="carousel.infoPanelState.mostPopular"
       />
@@ -59,12 +55,10 @@
 </template>
 
 <script>
-import Carousel from '@/components/carousel/Carousel'
 import TitleCarousel from '@/components/carousel/TitleCarousel'
 export default {
   name: 'Home',
   components: {
-    Carousel,
     TitleCarousel
   },
   data() {
