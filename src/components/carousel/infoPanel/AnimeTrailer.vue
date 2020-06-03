@@ -117,6 +117,6 @@ export default {
 
 .poster-image {
   height: auto;
-  width: 354px;
+  width: 30%;
 }
 </style>
