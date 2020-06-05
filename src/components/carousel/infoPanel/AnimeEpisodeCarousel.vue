@@ -13,7 +13,10 @@
         :key="episode.attributes.id"
         :data-id="episode.id"
       >
-        <AnimeEpisodeCard :episode="episode" />
+        <AnimeEpisodeCard
+          :episode="episode"
+          :fallbackImg="anime.attributes.posterImage.small"
+        />
       </Slide>
     </Carousel>
   </div>

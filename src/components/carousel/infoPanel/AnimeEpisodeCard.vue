@@ -2,19 +2,31 @@
   <div class="episode-card--wrapper">
     <div class="episode-card">
       <div class="episode-card--image">
-        <img
-          :style="imgStyle"
-          :src="episode.attributes.thumbnail.original"
-          alt=""
-        />
+        <img :style="imgStyle" :src="imgSrc" alt="" />
       </div>
-      <div class="episode-card--details">
-        <h3>{{ episode.attributes.canonicalTitle }}</h3>
-        <h3>{{ episode.attributes.length }}m</h3>
+      <div
+        class="episode-card--details"
+        v-if="episode.attributes.canonicalTitle"
+      >
+        <span class="episode-card--details__title"
+          ><h3>{{ episode.attributes.canonicalTitle }}</h3></span
+        >
+        <span class="episode-card--details__length"
+          ><h3>{{ episode.attributes.length }}m</h3></span
+        >
       </div>
       <div class="episode-card--synopsis">
         <p>
-          {{ clippedSynopsis }}
+          <strong
+            >S{{ episode.attributes.seasonNumber }}:E{{
+              episode.attributes.number
+            }}</strong
+          >
+          {{
+            episode.attributes.synopsis
+              ? clippedSynopsis
+              : 'No information available'
+          }}
         </p>
       </div>
     </div>
@@ -31,11 +43,23 @@ export default {
     episode: {
       type: Object,
       required: true
+    },
+    fallbackImg: {
+      type: String,
+      default: 'https://kitsu.io/kitsu-256-ed442f7567271af715884ca3080e8240.png'
     }
   },
   computed: {
     imgStyle() {
       return `width: ${this.width}px; height: auto;`
+    },
+    imgSrc() {
+      if (this.episode.attributes.thumbnail == null) {
+        console.log(this.fallbackImg)
+        return this.fallbackImg
+      } else {
+        return this.episode.attributes.thumbnail.original
+      }
     },
     clippedSynopsis() {
       let origSynopsisArr = this.episode.attributes.synopsis.split(
@@ -71,12 +95,12 @@ export default {
   &--image {
     grid-area: image;
     width: 400px;
-    height: 220px;
-
+    max-height: 220px;
+    margin-bottom: 10px;
     & img {
       object-fit: cover;
       width: 100%;
-      height: 100%;
+      max-height: 220px;
     }
   }
 
@@ -85,6 +109,14 @@ export default {
     color: #808080;
     display: flex;
     justify-content: space-between;
+
+    & h3 {
+      margin: 0 0 10px 0;
+    }
+
+    &__length {
+      margin-left: 20px;
+    }
   }
 
   &--synopsis {
