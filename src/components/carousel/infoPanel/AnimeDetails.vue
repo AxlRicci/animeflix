@@ -13,12 +13,13 @@
       <h4>{{ anime.attributes.ageRating }}</h4>
     </div>
     <div class="overview-details--item overview-details__episodes">
-      <h4>{{ this.episodeCount }} Episodes</h4>
+      <h4>{{ this.episodes }} Episodes</h4>
     </div>
   </div>
 </template>
 
 <script>
+import KitsuService from '@/services/KitsuService.js'
 export default {
   props: {
     anime: {
@@ -26,21 +27,28 @@ export default {
       required: true
     }
   },
-  computed: {
+  data() {
+    return {
+      episodes: 'N/A'
+    }
+  },
+  created() {
+    this.episodeCount()
+  },
+  watch: {
+    anime: function() {
+      this.episodeCount()
+    }
+  },
+  methods: {
     episodeCount() {
-      let attributes = this.anime.attributes
-      if (attributes.episodeCount) {
-        return attributes.episodeCount
-      } else {
-        let epCount = Math.floor(
-          attributes.totalLength / attributes.episodeLength
-        )
-        if (epCount < 0) {
-          return epCount * -1
-        } else {
-          return epCount
-        }
-      }
+      KitsuService.getData(this.anime.relationships.episodes.links.related)
+        .then(response => {
+          this.episodes = response.data.meta.count
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }
