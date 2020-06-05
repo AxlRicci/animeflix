@@ -12,7 +12,11 @@
       @removeSelected="removeSelected"
       :anime="this.item"
     />
-    <InfoPanelNavbar class="info-panel--navbar" @selectedView="selectView" />
+    <InfoPanelNavbar
+      class="info-panel--navbar"
+      @selectedView="selectView"
+      :currentView="view"
+    />
   </div>
 
   <!-- add more panel view components -->

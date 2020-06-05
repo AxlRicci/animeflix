@@ -3,28 +3,28 @@
     <ul class="ip-navbar--list">
       <li
         class="ip-navbar--item ip-navbar--item__overview"
-        :class="{ selected: selected.overview }"
+        :class="{ selected: currentView.overview }"
         @click="selectView('overview')"
       >
         <p><b>OVERVIEW</b></p>
       </li>
       <li
         class="ip-navbar--item ip-navbar--item__episodes"
-        :class="{ selected: selected.episodes }"
+        :class="{ selected: currentView.episodes }"
         @click="selectView('episodes')"
       >
         <p><b>EPISODES</b></p>
       </li>
       <li
         class="ip-navbar--item ip-navbar--item__related"
-        :class="{ selected: selected.related }"
+        :class="{ selected: currentView.related }"
         @click="selectView('related')"
       >
         <p><b>MORE LIKE THIS</b></p>
       </li>
       <li
         class="ip-navbar--item ip-navbar--item__details"
-        :class="{ selected: selected.details }"
+        :class="{ selected: currentView.details }"
         @click="selectView('details')"
       >
         <p><b>DETAILS</b></p>
@@ -35,14 +35,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      selected: {
-        overview: true,
-        episodes: false,
-        related: false,
-        details: false
-      }
+  props: {
+    currentView: {
+      type: Object,
+      required: true
     }
   },
   methods: {
@@ -51,13 +47,6 @@ export default {
     },
     selectView(view) {
       this.$emit('selectedView', view)
-      Object.keys(this.selected).forEach(item => {
-        if (view == item) {
-          this.selected[item] = true
-        } else {
-          this.selected[item] = false
-        }
-      })
     }
   }
 }
