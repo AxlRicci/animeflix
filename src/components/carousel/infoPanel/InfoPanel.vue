@@ -59,6 +59,11 @@ export default {
         }
       })
     }
+  },
+  watch: {
+    item: function() {
+      this.selectView('overview')
+    }
   }
 }
 </script>
@@ -67,7 +72,7 @@ export default {
 .info-panel {
   &--wrapper {
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 100%;
     grid-template-rows: repeat(12, 1fr);
     background: #000;
     height: 100%;

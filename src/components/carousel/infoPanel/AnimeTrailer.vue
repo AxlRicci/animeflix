@@ -3,7 +3,7 @@
     :class="{
       'trailer--container': trailerVarified,
       'cover-image--container': !trailerVarified,
-      'poster-image--container': !coverImageAvailable
+      'poster-image--container': !coverImageAvailable && !coverImageSrc
     }"
   >
     <img
@@ -12,7 +12,7 @@
       class="cover-image"
       :class="{
         'cover-image': coverImageAvailable,
-        'poster-image': !coverImageAvailabe
+        'poster-image': !coverImageAvailable && !coverImageSrc
       }"
       alt=""
     />
@@ -37,8 +37,8 @@ export default {
   data() {
     return {
       trailerVarified: '',
-      coverImageAvailabe: '',
-      coverImageSrc: ''
+      coverImageAvailable: false,
+      coverImageSrc: null
     }
   },
   watch: {

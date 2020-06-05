@@ -10,7 +10,7 @@
 
 <style>
 html {
-  background: #000;
+  background: #141414;
 }
 
 #app {

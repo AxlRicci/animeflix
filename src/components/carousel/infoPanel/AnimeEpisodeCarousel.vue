@@ -1,98 +1,104 @@
 <template>
   <div class="ep-carousel--wrapper">
-    <div class="ep-carousel--nav__left">BACK</div>
-    <div class="ep-carousel">
-      <div class="ep-carousel--overflow-container">
-        <div
-          class="ep-carousel-cards"
-          :style="{
-            transform: 'translateX' + '(' + currentOffset + 'px' + ')'
-          }"
-        >
-          <div
-            class="ep-carousel--card"
-            v-for="episode in episodes"
-            :key="episode.id"
-          >
-            <img :src="episode.attributes.thumbnail.original" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="ep-carousel--nav__right" @click="moveCarousel(1)">
-      <p @click="moveCarousel(1)">forward</p>
-      <p @click="getEpisodes()"></p>
-    </div>
+    <Carousel
+      class="ep-carousel"
+      :perPage="perPage"
+      :navigationEnabled="true"
+      :paginationEnabled="false"
+      @navigation-click="pageHandler"
+      @pageChange="pageHandler"
+    >
+      <Slide
+        v-for="episode in episodes"
+        :key="episode.attributes.id"
+        :data-id="episode.id"
+      >
+        <AnimeEpisodeCard :episode="episode" />
+      </Slide>
+    </Carousel>
   </div>
 </template>
 
 <script>
 import KitsuService from '@/services/KitsuService.js'
+import { Carousel, Slide } from 'vue-carousel'
+import AnimeEpisodeCard from '@/components/carousel/infoPanel/AnimeEpisodeCard'
 
 export default {
+  components: {
+    Carousel,
+    Slide,
+    AnimeEpisodeCard
+  },
   props: {
     anime: {
       type: Object,
       required: true
+    },
+    imgWidth: {
+      type: String,
+      default: '400'
+    },
+    perPage: {
+      type: Number,
+      default: 4
     }
   },
   data() {
     return {
       episodes: [],
       selectedItem: null,
-      currentOffset: 0
+      lastCall: '',
+      nextCall: ''
     }
   },
   created() {
     this.getEpisodes()
   },
   methods: {
-    moveCarousel(direction) {
-      console.log('moved', direction)
-      if (direction === 1 && !this.atEndofList) {
-        this.currentOffset -= this.scrollInterval
-      } else if (direction === -1 && !this.atHeadofList) {
-        this.currentOffset += this.scrollInterval
-      }
-    },
     getEpisodes() {
       // call kitsu for proper episode list.
       KitsuService.getData(this.anime.relationships.episodes.links.related)
         .then(response => {
           console.log(response)
+          this.nextCall = response.data.links.next
           this.episodes = response.data.data
           console.log(this.episodes)
         })
         .catch(err => {
           console.error('There was an error fetching episodes', err)
         })
+    },
+    getAdditionalEpisodes() {
+      if (this.lastCall !== this.nextCall) {
+        this.lastCall = this.nextCall
+        KitsuService.getData(this.nextCall)
+          .then(response => {
+            response.data.data.forEach(item => {
+              this.episodes.push(item)
+            })
+            this.nextCall = response.data.links.next
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    pageHandler(page) {
+      console.log(page)
+      if (page >= this.pages - 1) {
+        // At end of list, fetch more data
+        console.log('get more episodes')
+        this.getAdditionalEpisodes()
+      }
     }
   },
   computed: {
-    atEndofList() {
-      return this.currentOffset < -1 * (this.listLength - this.containerWidth)
-    },
-    atHeadofList() {
-      return this.currentOffset === 0
-    },
-    listLength() {
-      return (
-        this.items.length +
-        this.gap * this.coverNumber +
-        this.items.length * this.width
-      )
-    },
-    scrollInterval() {
-      return this.containerWidth + this.gap
-    },
-    width() {
-      return (
-        ((this.containerWidth - this.gap) * (this.coverNumber - 1)) /
-        this.coverNumer
-      )
-    },
     imgStyle() {
-      return 'width: ' + this.width + 'px'
+      return `width: ${this.imgWidth}px; height: auto`
+    },
+    pages() {
+      return Math.floor(this.episodes.length / this.perPage)
     }
   }
 }
@@ -104,48 +110,6 @@ export default {
 }
 
 .ep-carousel {
-  display: flex;
-  justify-self: center;
-  width: 90%;
-
-  &--overflow-container {
-    overflow: hidden;
-  }
-
-  // Add nav styles here.
-}
-
-.ep-carousel-cards {
-  display: flex;
-  transition: transform 150ms ease-out;
-  transform: translatex(0px);
-
-  .ep-carousel--card {
-    margin: 10px 5px 10px 0;
-    cursor: pointer;
-    background-color: #999;
-    z-index: 3;
-    margin-bottom: 2px;
-
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    img {
-      width: 200px;
-      vertical-align: bottom;
-      border-radius: 4px;
-      transition: opacity 150ms linear;
-      user-select: none;
-
-      &:hover {
-        opacity: 0.5;
-      }
-    }
-  }
+  margin: auto 0;
 }
 </style>
