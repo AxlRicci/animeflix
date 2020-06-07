@@ -1,7 +1,12 @@
 <template>
   <div class="streams--wrapper">
     <div v-if="streamers.length > 0" class="stream-btn--group">
-      <button class="stream-btn" v-for="stream in streamers" :key="stream.id">
+      <button
+        class="stream-btn"
+        v-for="stream in streamers"
+        :key="stream.id"
+        @click="streamLink(stream.attributes.url)"
+      >
         <img class="stream-btn--icon" :src="icon(stream.attributes.url)" />
       </button>
     </div>
@@ -43,8 +48,10 @@ export default {
     },
     icon(url) {
       let icon = url.match(/[a-z]{1,}((?=\.co)|(?=\.com)|(?=\.io))/)[0]
-      console.log(icon)
       return require('../../../assets/' + icon + '.svg')
+    },
+    streamLink(url) {
+      window.open(url, 'streaming window')
     }
   }
 }
