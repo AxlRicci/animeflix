@@ -1,5 +1,8 @@
 <template>
   <div class="info-panel--wrapper">
+    <div class="close">
+      <img @click="removeSelected" src="../../../assets/clear.svg" />
+    </div>
     <InfoPanelOverview
       v-if="this.view.overview"
       class="info-panel--view info-panel--view__overview"
@@ -76,7 +79,7 @@ export default {
 .info-panel {
   &--wrapper {
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(12, 1fr);
     background: #000;
     height: 100%;
@@ -84,12 +87,12 @@ export default {
 
   &--view {
     grid-row: 1/12;
-    grid-column: 1/2;
+    grid-column: 1/13;
   }
 
   &--navbar {
     grid-row: 12/13;
-    grid-column: 1/2;
+    grid-column: 1/13;
     z-index: 1;
     background: linear-gradient(
       0deg,
@@ -97,6 +100,18 @@ export default {
       rgba(0, 0, 0, 0.6446953781512605) 50%,
       rgba(0, 0, 0, 0) 100%
     );
+  }
+}
+
+.close {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  display: flex;
+  z-index: 3;
+  justify-self: start;
+  cursor: pointer;
+  & img {
+    height: 24px;
   }
 }
 </style>

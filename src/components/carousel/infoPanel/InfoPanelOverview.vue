@@ -16,9 +16,6 @@
       <div class="overview--credits">
         <AnimeCredits :anime="itemInfo" />
       </div>
-      <div class="close">
-        <img @click="removeSelected" src="../../../assets/clear.svg" />
-      </div>
     </div>
     <div class="info-panel--trailer">
       <AnimeTrailer :anime="itemInfo" />
@@ -47,11 +44,6 @@ export default {
     itemInfo: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    removeSelected() {
-      this.$emit('removeSelected')
     }
   }
 }
@@ -88,15 +80,6 @@ export default {
   &--trailer {
     grid-column: 6/13;
     grid-row: 1/2;
-  }
-}
-
-.close {
-  grid-area: title;
-  justify-self: end;
-  cursor: pointer;
-  & img {
-    height: 34px;
   }
 }
 
