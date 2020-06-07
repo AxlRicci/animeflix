@@ -4,13 +4,13 @@
       <img @click="removeSelected" src="../../../assets/clear.svg" />
     </div>
     <InfoPanelOverview
-      v-if="this.view.overview"
+      v-if="this.views.overview.active"
       class="info-panel--view info-panel--view__overview"
       @removeSelected="removeSelected"
       :itemInfo="this.item"
     />
     <InfoPanelEpisodes
-      v-if="this.view.episodes"
+      v-if="this.views.episodes.active"
       class="info-panel--view info-panel--view__episodes"
       @removeSelected="removeSelected"
       :anime="this.item"
@@ -18,7 +18,7 @@
     <InfoPanelNavbar
       class="info-panel--navbar"
       @selectedView="selectView"
-      :currentView="view"
+      :views="views"
     />
   </div>
 
@@ -44,11 +44,23 @@ export default {
   },
   data() {
     return {
-      view: {
-        overview: true,
-        episodes: false,
-        related: false,
-        details: false
+      views: {
+        overview: {
+          name: 'overview',
+          active: true
+        },
+        episodes: {
+          name: 'episodes',
+          active: false
+        },
+        related: {
+          name: 'related',
+          active: false
+        },
+        details: {
+          name: 'details',
+          active: false
+        }
       }
     }
   },
@@ -58,11 +70,11 @@ export default {
     },
     selectView(view) {
       console.log(view)
-      Object.keys(this.view).forEach(item => {
+      Object.keys(this.views).forEach(item => {
         if (view == item) {
-          this.view[item] = true
+          this.views[item].active = true
         } else {
-          this.view[item] = false
+          this.views[item].active = false
         }
       })
     }

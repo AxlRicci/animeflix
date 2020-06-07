@@ -2,32 +2,15 @@
   <div class="ip-navbar--wrapper">
     <ul class="ip-navbar--list">
       <li
-        class="ip-navbar--item ip-navbar--item__overview"
-        :class="{ selected: currentView.overview }"
-        @click="selectView('overview')"
+        v-for="view in views"
+        :key="view.name"
+        class="ip-navbar--item"
+        :class="{ selected: view.active }"
+        @click="selectView(view.name)"
       >
-        <p><b>OVERVIEW</b></p>
-      </li>
-      <li
-        class="ip-navbar--item ip-navbar--item__episodes"
-        :class="{ selected: currentView.episodes }"
-        @click="selectView('episodes')"
-      >
-        <p><b>EPISODES</b></p>
-      </li>
-      <li
-        class="ip-navbar--item ip-navbar--item__related"
-        :class="{ selected: currentView.related }"
-        @click="selectView('related')"
-      >
-        <p><b>MORE LIKE THIS</b></p>
-      </li>
-      <li
-        class="ip-navbar--item ip-navbar--item__details"
-        :class="{ selected: currentView.details }"
-        @click="selectView('details')"
-      >
-        <p><b>DETAILS</b></p>
+        <p>
+          <b>{{ view.name.toUpperCase() }}</b>
+        </p>
       </li>
     </ul>
   </div>
@@ -36,15 +19,12 @@
 <script>
 export default {
   props: {
-    currentView: {
+    views: {
       type: Object,
       required: true
     }
   },
   methods: {
-    logit(item) {
-      console.log('been clicked', item)
-    },
     selectView(view) {
       this.$emit('selectedView', view)
     }
