@@ -1,30 +1,64 @@
 <template>
   <div class="overview-actions--wrapper">
-    <button class="overview-actions--item overview-actions--item__stream">
-      <span class="button button--play">
-        <img
-          class="button-icon button-icon--play"
-          src="../../../assets/play_arrow.svg"
-          alt
-        />
-        <p>Play</p>
-      </span>
-    </button>
-    <button class="overview-actions--item overview-actions--item__list">
-      <span class="button button--add">
-        <img
-          class="button-icon button-icon--add"
-          src="../../../assets/add.svg"
-          alt
-        />
-        <p>My List</p>
-      </span>
-    </button>
+    <div class="overview-actions--buttons">
+      <button
+        @click="toggleStreams"
+        class="overview-actions--item overview-actions--item__stream"
+      >
+        <span class="button button--play">
+          <img
+            class="button-icon button-icon--play"
+            src="../../../assets/play_arrow.svg"
+            alt
+          />
+          <p>Play</p>
+        </span>
+      </button>
+      <button class="overview-actions--item overview-actions--item__list">
+        <span class="button button--add">
+          <img
+            class="button-icon button-icon--add"
+            src="../../../assets/add.svg"
+            alt
+          />
+          <p>My List</p>
+        </span>
+      </button>
+    </div>
+    <div v-if="showStreams" class="overview-actions--streams">
+      <AnimeStreams :anime="anime" />
+    </div>
   </div>
 </template>
 
 <script>
-export default {}
+import AnimeStreams from '@/components/carousel/infoPanel/AnimeStreams'
+export default {
+  components: {
+    AnimeStreams
+  },
+  props: {
+    anime: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      showStreams: false
+    }
+  },
+  methods: {
+    toggleStreams() {
+      this.showStreams = !this.showStreams
+    }
+  },
+  watch: {
+    anime: function() {
+      this.showStreams = false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -32,6 +66,15 @@ export default {}
   &--wrapper {
     display: flex;
     justify-items: start;
+    flex-direction: column;
+  }
+
+  &--buttons {
+    display: flex;
+  }
+
+  &--streams {
+    display: flex;
   }
   &--item {
     margin-right: 14px;

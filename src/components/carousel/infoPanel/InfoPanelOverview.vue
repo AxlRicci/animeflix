@@ -11,7 +11,7 @@
         <AnimeSynopsis :anime="itemInfo" />
       </div>
       <div class="overview--actions">
-        <AnimeActions />
+        <AnimeActions :anime="itemInfo" />
       </div>
       <div class="overview--credits">
         <AnimeCredits :anime="itemInfo" />
