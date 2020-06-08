@@ -3,7 +3,7 @@
     <ul class="details-names--list">
       <li class="details-names--list-label"><b>Names</b></li>
       <li
-        class="details-names--item"
+        class="details-names--list-item"
         v-for="name in sortedNames"
         :key="name.region"
       >
@@ -67,5 +67,11 @@ export default {
 .details-names--list {
   list-style-type: none;
   text-align: start;
+  &-label {
+    color: #808080;
+  }
+  &-item {
+    color: #fff;
+  }
 }
 </style>

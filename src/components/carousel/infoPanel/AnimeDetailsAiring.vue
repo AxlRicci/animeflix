@@ -3,7 +3,7 @@
     <ul class="details-season--list">
       <li class="details-season--list-label"><b>Details</b></li>
       <li
-        class="details-season--item"
+        class="details-season--list-item"
         v-for="detail in availableDetails"
         :key="detail.name"
       >
@@ -126,5 +126,13 @@ export default {
 .details-season--list {
   list-style-type: none;
   text-align: start;
+
+  &-label {
+    color: #808080;
+  }
+
+  &-item {
+    color: #fff;
+  }
 }
 </style>

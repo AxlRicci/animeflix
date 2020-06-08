@@ -41,6 +41,7 @@ export default {
     list-style-type: none;
     display: flex;
     justify-content: center;
+    padding: 0;
   }
 
   &--item {
