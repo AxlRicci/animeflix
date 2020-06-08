@@ -15,6 +15,12 @@
       @removeSelected="removeSelected"
       :anime="this.item"
     />
+    <InfoPanelDetails
+      v-if="this.views.details.active"
+      class="info-panel--view info-panel--view__details"
+      @removeSelected="removeSelected"
+      :anime="this.item"
+    />
     <InfoPanelNavbar
       class="info-panel--navbar"
       @selectedView="selectView"
@@ -29,12 +35,14 @@
 import InfoPanelNavbar from '@/components/carousel/infoPanel/InfoPanelNavbar'
 import InfoPanelOverview from '@/components/carousel/infoPanel/InfoPanelOverview'
 import InfoPanelEpisodes from '@/components/carousel/infoPanel/InfoPanelEpisodes'
+import InfoPanelDetails from '@/components/carousel/infoPanel/InfoPanelDetails'
 
 export default {
   components: {
     InfoPanelOverview,
     InfoPanelNavbar,
-    InfoPanelEpisodes
+    InfoPanelEpisodes,
+    InfoPanelDetails
   },
   props: {
     item: {
