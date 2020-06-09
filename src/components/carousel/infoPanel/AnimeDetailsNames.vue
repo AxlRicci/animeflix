@@ -1,7 +1,7 @@
 <template>
   <div class="details-names--wrapper">
     <ul class="details-names--list">
-      <li class="details-names--list-label"><b>Names</b></li>
+      <li class="details-names--list-label"><b>Titles</b></li>
       <li
         class="details-names--list-item"
         v-for="name in sortedNames"
@@ -67,11 +67,15 @@ export default {
 .details-names--list {
   list-style-type: none;
   text-align: start;
+  padding: 0;
+
   &-label {
     color: #808080;
+    margin-bottom: 5px;
   }
   &-item {
     color: #fff;
+    margin-bottom: 2px;
   }
 }
 </style>

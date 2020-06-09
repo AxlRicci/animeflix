@@ -1,7 +1,7 @@
 <template>
   <div class="details-season--wrapper">
     <ul class="details-season--list">
-      <li class="details-season--list-label"><b>Details</b></li>
+      <li class="details-season--list-label"><b>Airing Details</b></li>
       <li
         class="details-season--list-item"
         v-for="detail in availableDetails"
@@ -27,7 +27,7 @@ export default {
         'showType',
         'episodeCount',
         'status',
-        'Aired',
+        'startDate',
         'ageRatingGuide',
         'totalLength'
       ],
@@ -35,37 +35,33 @@ export default {
     }
   },
   created() {
-    this.getSeasonDetails()
+    this.getAiringDetails()
   },
   methods: {
-    getSeasonDetails() {
+    getAiringDetails() {
       this.detailList.forEach(detail => {
-        if (this.anime.attributes[detail] || detail == 'Aired') {
-          let outObj = {}
+        if (this.anime.attributes[detail]) {
           if (detail == 'totalLength') {
-            // total length to H:M
-            let HourMin = this.getHoursMins()
-            outObj = {
-              name: detail,
-              value: HourMin
-            }
-          } else if (
-            this.anime.attributes.startDate &&
-            this.anime.attributes.endDate &&
-            detail == 'Aired'
-          ) {
+            let length = this.getHoursMins()
+            this.availableDetails.push({ name: detail, value: length })
+          } else if (detail == 'startDate') {
             let airDate = this.getAired()
-            outObj = {
+            this.availableDetails.push({ name: 'Airing', value: airDate })
+          } else if (detail == 'status') {
+            let outObj = {
               name: detail,
-              value: airDate
+              value: `${this.anime.attributes[detail]
+                .charAt(0)
+                .toUpperCase()}${this.anime.attributes[detail].slice(1)}`
             }
+            this.availableDetails.push(outObj)
           } else {
-            outObj = {
+            let outObj = {
               name: detail,
               value: this.anime.attributes[detail]
             }
+            this.availableDetails.push(outObj)
           }
-          this.availableDetails.push(outObj)
         }
       })
     },
@@ -91,25 +87,31 @@ export default {
     },
     getAired() {
       let options = { year: 'numeric', month: 'short', day: 'numeric' }
-      let startDate = new Date(
-        this.anime.attributes.startDate
-      ).toLocaleDateString('en-US', options)
-      let endDate = new Date(this.anime.attributes.endDate).toLocaleDateString(
-        'en-US',
-        options
-      )
+      let startDate = '?'
+      if (this.anime.attributes.startDate) {
+        startDate = new Date(
+          this.anime.attributes.startDate
+        ).toLocaleDateString('en-US', options)
+      }
+      let endDate = '?'
+      if (this.anime.attributes.endDate) {
+        endDate = new Date(this.anime.attributes.endDate).toLocaleDateString(
+          'en-US',
+          options
+        )
+      }
       return `${startDate} to ${endDate}`
     },
     setTitle(name) {
       switch (name) {
+        case 'Airing':
+          return 'Airing'
         case 'showType':
           return 'Type'
         case 'episodeCount':
           return 'Episodes'
         case 'status':
           return 'Status'
-        case 'Aired':
-          return 'Aired'
         case 'ageRatingGuide':
           return 'Rating'
         case 'totalLength':
@@ -126,13 +128,16 @@ export default {
 .details-season--list {
   list-style-type: none;
   text-align: start;
+  padding: 0;
 
   &-label {
     color: #808080;
+    margin-bottom: 5px;
   }
 
   &-item {
     color: #fff;
+    margin-bottom: 2px;
   }
 }
 </style>

@@ -1,13 +1,17 @@
 <template>
   <div class="details-production--wrapper">
-    <ul class="details-production--list">
-      <li class="details-production--list-label"><b>Production</b></li>
+    <ul class="details-production--list" v-if="dataPresent">
+      <li class="details-production--list-label"><b>Production Details</b></li>
       <li
         class="details-production--list-item"
         v-for="productionType in productionTypes"
         :key="productionType.name"
       >
-        {{ productionType.name }}: {{ productionType.companies.join(', ') }}
+        {{
+          productionType.companies.length > 0
+            ? `${productionType.name}: ${productionType.companies.join(', ')}`
+            : null
+        }}
       </li>
     </ul>
   </div>
@@ -25,6 +29,7 @@ export default {
   },
   data() {
     return {
+      dataPresent: false,
       productionTypes: {
         studio: {
           name: 'Studios',
@@ -66,18 +71,18 @@ export default {
       KitsuService.getData(
         this.anime.relationships.productions.links.related
       ).then(response => {
-        response.data.data.forEach(company => {
-          if (company.attributes.role == 'studio') {
-            console.log('fetching studios')
-            this.getCompanyDetails(company, 'studio')
-          } else if (company.attributes.role == 'licensor') {
-            console.log('fetching licensors')
-            this.getCompanyDetails(company, 'licensor')
-          } else if (company.attributes.role == 'producer') {
-            console.log('fetching producers')
-            this.getCompanyDetails(company, 'producer')
-          }
-        })
+        if (response.data.meta.count > 0) {
+          this.dataPresent = true
+          response.data.data.forEach(company => {
+            if (company.attributes.role == 'studio') {
+              this.getCompanyDetails(company, 'studio')
+            } else if (company.attributes.role == 'licensor') {
+              this.getCompanyDetails(company, 'licensor')
+            } else if (company.attributes.role == 'producer') {
+              this.getCompanyDetails(company, 'producer')
+            }
+          })
+        }
       })
     }
   }
@@ -88,11 +93,15 @@ export default {
 .details-production--list {
   list-style-type: none;
   text-align: left;
+  padding: 0;
+
   &-label {
     color: #808080;
+    margin-bottom: 5px;
   }
   &-item {
     color: #fff;
+    margin-bottom: 2px;
   }
 }
 </style>

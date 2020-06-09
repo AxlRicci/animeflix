@@ -1,23 +1,21 @@
 <template>
-  <div class="info-panel--details">
-    <div class="details--title">
-      <AnimeTitle :anime="anime" />
+  <div class="info-panel">
+    <div class="info-panel--details">
+      <div class="details--title">
+        <AnimeTitle :anime="anime" />
+      </div>
+      <div class="details--names">
+        <AnimeDetailsNames :anime="anime" />
+      </div>
+      <div class="details--airing">
+        <AnimeDetailsAiring :anime="anime" />
+      </div>
+      <div class="details--production">
+        <AnimeDetailsProduction :anime="anime" />
+      </div>
     </div>
-    <div class="details--names">
-      <AnimeDetailsNames :anime="anime" />
-    </div>
-    <div class="details--airing">
-      <AnimeDetailsAiring :anime="anime" />
-    </div>
-    <div class="details--production">
-      <AnimeDetailsProduction :anime="anime" />
-    </div>
-    <div class="cover-image--container">
-      <img
-        class="cover-image"
-        :src="anime.attributes.coverImage.original"
-        alt=""
-      />
+    <div class="info-panel--cover" v-if="this.coverAvailable">
+      <img class="cover-image" :src="this.coverSource" alt="" />
     </div>
   </div>
 </template>
@@ -40,25 +38,67 @@ export default {
       type: Object,
       required: true
     }
+  },
+  data() {
+    return {
+      coverAvailable: false,
+      coverSource: ''
+    }
+  },
+  created() {
+    this.getCover()
+  },
+  watch: {
+    anime: function() {
+      this.getCover()
+    }
+  },
+  methods: {
+    getCover() {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          this.anime.attributes.coverImage,
+          'original'
+        )
+      ) {
+        this.coverSource = this.anime.attributes.coverImage.original
+        this.coverAvailable = true
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.info-panel--details {
-  height: 100%;
+.info-panel {
+  position: relative;
+  background: #000000;
+  color: #fff;
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas: 'title title title' 'names production .' 'details . .';
-  margin: 20px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 100%;
+
+  &--details {
+    display: grid;
+    grid-column: 1/8;
+    grid-row: 1/2;
+    z-index: 1;
+    grid-template-rows: repeat(3, min-content);
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'title title' 'names production' 'airing airing';
+    margin: 20px;
+  }
+
+  &--cover {
+    grid-column: 1/13;
+    grid-row: 1/2;
+  }
 }
 
 .details {
   &--title {
-    z-index: 2;
-    color: #fff;
     grid-area: title;
+    color: #fff;
   }
 
   &--names {
@@ -68,7 +108,7 @@ export default {
 
   &--airing {
     z-index: 2;
-    grid-area: details;
+    grid-area: airing;
   }
 
   &--production {

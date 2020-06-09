@@ -61,16 +61,17 @@ export default {
           name: 'episodes',
           active: false
         },
-        related: {
-          name: 'related',
-          active: false
-        },
         details: {
           name: 'details',
           active: false
         }
       }
     }
+  },
+  mounted() {
+    let element = document.getElementsByClassName('info-panel--wrapper')[0]
+    let scrollIntoViewOptions = { behavior: 'smooth', block: 'end' }
+    element.scrollIntoView(scrollIntoViewOptions)
   },
   methods: {
     removeSelected() {
@@ -106,7 +107,7 @@ export default {
   }
 
   &--view {
-    grid-row: 1/12;
+    grid-row: 1/13;
     grid-column: 1/13;
   }
 
