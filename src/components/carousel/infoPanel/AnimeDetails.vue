@@ -1,6 +1,9 @@
 <template>
   <div class="overview-details--wrapper">
-    <div class="overview-details--item overview-details__rating">
+    <div
+      class="overview-details--item overview-details__rating"
+      v-if="anime.attributes.averageRating"
+    >
       <span class="rating-item">
         <h4>{{ anime.attributes.averageRating }}%</h4>
         <img class="thumb-icon" src="../../../assets/thumb_up.svg" alt />
@@ -13,7 +16,7 @@
       <h4>{{ anime.attributes.ageRating }}</h4>
     </div>
     <div class="overview-details--item overview-details__episodes">
-      <h4>{{ this.episodes }} Episodes</h4>
+      <h4>{{ this.episodes }} Episode{{ this.episodes > 1 ? 's' : '' }}</h4>
     </div>
   </div>
 </template>
