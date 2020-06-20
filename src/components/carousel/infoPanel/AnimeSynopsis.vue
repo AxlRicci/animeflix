@@ -39,8 +39,16 @@ export default {
 
   & p {
     margin: 0;
-    font-size: 22px;
+    font-size: 1.125vw;
     line-height: 1.3;
+  }
+}
+
+@media (max-width: 768px) {
+  .overview-synopsis--wrapper {
+    & p {
+      font-size: 11px;
+    }
   }
 }
 </style>
