@@ -21,7 +21,7 @@ export default {
   text-align: left;
 
   & h1 {
-    font-size: 50px;
+    font-size: 3vw;
     margin: 0px;
   }
 }
