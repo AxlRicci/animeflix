@@ -18,9 +18,8 @@
       <Carousel
         :perPage="perPage"
         :paginationEnabled="false"
-        @navigation-click="logit"
         @pageChange="pageHandler"
-        v-model="pageNum"
+        :navigateTo="pageNum"
       >
         <Slide
           v-for="item in items"
@@ -77,14 +76,6 @@ export default {
     InfoPanel
   },
   props: {
-    perPage: {
-      type: Number,
-      default: 7
-    },
-    imgWidth: {
-      type: String,
-      default: '251'
-    },
     resource: {
       type: String,
       required: true
@@ -111,10 +102,14 @@ export default {
       lastCall: '',
       nextCall: '',
       pageNum: 0,
-      navActive: false
+      navActive: false,
+      perPage: 2,
+      imgWidth: 200
     }
   },
   created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
     KitsuService.getData(this.dataCall)
       .then(response => {
         console.log(response)
@@ -127,6 +122,9 @@ export default {
       .catch(error => {
         console.log('there was an error gathering data', error)
       })
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
   },
   computed: {
     dataCall() {
@@ -146,7 +144,7 @@ export default {
       return `${this.resource}?${params.join('&')}`
     },
     imgStyle() {
-      return `width: ${this.imgWidth}px; height: auto`
+      return `width: ${this.imgWidth}px; height: auto; margin-right: 5px;`
     },
     pages() {
       return Math.floor(this.items.length / this.perPage)
@@ -154,9 +152,9 @@ export default {
   },
   methods: {
     changePage(type) {
-      if (type == 'next') {
+      if (type == 'next' && this.pageNum < this.pages) {
         this.pageNum += 1
-      } else if (type == 'prev') {
+      } else if (type == 'prev' && this.pageNum > 0) {
         this.pageNum -= 1
       }
     },
@@ -183,6 +181,7 @@ export default {
       }
     },
     pageHandler(page) {
+      console.log(page)
       if (page == this.pages - 1) {
         // At end of list, fetch more data
         this.getAdditionalTitles()
@@ -195,6 +194,38 @@ export default {
       this.selectedItem = this.items.filter(item => item.id == id.id)[0]
       console.log(this.selectedItem)
       this.$emit('panelOpen')
+    },
+    handleResize() {
+      let ww = window.innerWidth
+      switch (true) {
+        case ww <= 320:
+          this.imgWidth = 150
+          this.perPage = 2
+          break
+        case ww <= 425:
+          this.imgWidth = 130
+          this.perPage = 3
+          break
+        case ww <= 768:
+          this.imgWidth = 180
+          this.perPage = 4
+          break
+        case ww <= 1024:
+          this.imgWidth = 200
+          this.perPage = 5
+          break
+        case ww <= 1440:
+          this.imgWidth = 250
+          this.perPage = 5
+          break
+        case ww <= 1920:
+          this.imgWidth = 265
+          this.perPage = 7
+          break
+        case ww <= 2560:
+          this.imgWidth = 250
+          this.perPage = 10
+      }
     },
     // gsap animations for info panel
     beforeEnter(el) {
@@ -226,47 +257,43 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title-carousel {
+  &--wrapper {
+    width: 100%;
+  }
+
+  &--title {
+    text-align: left;
+    margin: 10px 0 10px 0;
+    color: #fff;
+  }
+  &--carousel {
+    position: relative;
+  }
+}
+
+.carousel-nav {
+  position: absolute;
+  z-index: 2;
+  height: 100%;
+  width: 75px;
+  background: rgba(55, 55, 55, 0.5);
+  display: flex;
+  justify-content: center;
+  &__prev {
+    top: 0;
+    left: 0;
+  }
+  &__next {
+    top: 0;
+    right: 0;
+  }
+}
+
+.carousel-info-panel--wrapper {
+  height: 588px;
+}
 @media (min-width: 640px) {
-  .title-carousel {
-    &--wrapper {
-      width: 100%;
-    }
-
-    &--title {
-      text-align: left;
-      margin: 10px 0 10px 0;
-      color: #fff;
-    }
-    &--carousel {
-      position: relative;
-    }
-  }
-
-  .carousel-nav {
-    position: absolute;
-    z-index: 2;
-    height: 100%;
-    width: 75px;
-    background: rgba(55, 55, 55, 0.5);
-    display: flex;
-    justify-content: center;
-    &__prev {
-      top: 0;
-      left: 0;
-    }
-    &__next {
-      top: 0;
-      right: 0;
-    }
-  }
-
-  .carousel-info-panel--wrapper {
-    height: 588px;
-  }
-  .img {
-    width: 354px;
-    height: auto;
-  }
 }
 
 @media (min-width: 768px) {

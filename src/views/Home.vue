@@ -3,8 +3,6 @@
     <div class="trending">
       <TitleCarousel
         resource="trending/anime"
-        :perPage="5"
-        imgWidth="354"
         @panelOpen="toggleInfoPanel('trending')"
         :panelState="carousel.infoPanelState.trending"
         title="Trending"
@@ -19,7 +17,6 @@
           { attribute: 'averageRating', value: '5..' }
         ]"
         :sort="['popularityRank']"
-        :perPage="7"
         @panelOpen="toggleInfoPanel('topAiring')"
         :panelState="carousel.infoPanelState.topAiring"
       />
@@ -30,7 +27,6 @@
         resource="anime"
         :filter="[{ attribute: 'status', value: 'upcoming' }]"
         :sort="['popularityRank']"
-        :perPage="7"
         @panelOpen="toggleInfoPanel('topUpcoming')"
         :panelState="carousel.infoPanelState.topUpcoming"
       />
@@ -41,7 +37,6 @@
         resource="anime"
         :filter="[{ attribute: 'averageRating', value: '5..' }]"
         :sort="['-averageRating']"
-        :perPage="7"
         @panelOpen="toggleInfoPanel('topRated')"
         :panelState="carousel.infoPanelState.topRated"
       />
@@ -51,7 +46,6 @@
         title="Most Popular"
         resource="anime"
         :sort="['popularityRank']"
-        :perPage="7"
         @panelOpen="toggleInfoPanel('mostPopular')"
         :panelState="carousel.infoPanelState.mostPopular"
       />
@@ -95,12 +89,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.home-wrapper {
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+}
+
 @media (min-width: 640px) {
-  .home-wrapper {
-    display: flex;
-    justify-items: center;
-    flex-direction: column;
-  }
 }
 
 @media (min-width: 768px) {
