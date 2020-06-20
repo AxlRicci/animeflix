@@ -291,17 +291,18 @@ export default {
 }
 
 .carousel-info-panel--wrapper {
-  height: 588px;
+  height: 37vw;
 }
-@media (min-width: 640px) {
+
+@media (min-width: 576px) {
 }
 
 @media (min-width: 768px) {
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 992px) {
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1200px) {
 }
 </style>

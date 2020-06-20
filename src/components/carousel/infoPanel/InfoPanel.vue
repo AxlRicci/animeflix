@@ -112,15 +112,7 @@ export default {
   }
 
   &--navbar {
-    grid-row: 12/13;
-    grid-column: 1/13;
-    z-index: 1;
-    background: linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.6446953781512605) 50%,
-      rgba(0, 0, 0, 0) 100%
-    );
+    display: none;
   }
 }
 
@@ -132,7 +124,53 @@ export default {
   justify-self: start;
   cursor: pointer;
   & img {
-    height: 24px;
+    height: 12px;
+  }
+}
+
+@media (min-width: 576px) {
+  .close {
+    & img {
+      height: 14px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .close {
+    & img {
+      height: 16px;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .info-panel {
+    &--navbar {
+      display: block;
+      grid-row: 12/13;
+      grid-column: 1/13;
+      z-index: 1;
+      background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.6446953781512605) 50%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
+  }
+  .close {
+    & img {
+      height: 18px;
+    }
+  }
+}
+
+@media (min-width: 1220px) {
+  .close {
+    & img {
+      height: 20px;
+    }
   }
 }
 </style>
