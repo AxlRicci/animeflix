@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <Navbar />
+    <Navbar class="navbar" />
     <router-view class="content" />
   </div>
 </template>
@@ -24,15 +24,20 @@ html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
-  width: 99vw;
-  margin: 0 auto;
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
 }
+
 .content {
-  margin-top: 100px;
+  margin-top: 58px;
 }
 
 @media (min-width: 640px) {
+  .content {
+    margin-top: 58px;
+  }
 }
 
 @media (min-width: 768px) {
