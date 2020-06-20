@@ -67,11 +67,11 @@ export default {
   }
 
   &--item {
-    margin-right: 30px;
+    margin-right: 0.5em;
 
     & h4 {
       margin: 0;
-      font-size: 22px;
+      font-size: 2vw;
     }
   }
 
@@ -89,11 +89,26 @@ export default {
   display: flex;
 
   & h4 {
-    margin: 2px 5px 2px 2px;
+    margin-right: 5px;
   }
 }
 
 .thumb-icon {
-  height: 24px;
+  height: 2.5vw;
+}
+
+@media (min-width: 992px) {
+  .overview-details {
+    &--item {
+      margin-right: 1em;
+      & h4 {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .thumb-icon {
+    height: 24px;
+  }
 }
 </style>
