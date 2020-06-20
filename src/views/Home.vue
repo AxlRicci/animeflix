@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="home--wrapper">
     <div class="trending">
       <TitleCarousel
         resource="trending/anime"
@@ -7,10 +7,12 @@
         imgWidth="354"
         @panelOpen="toggleInfoPanel('trending')"
         :panelState="carousel.infoPanelState.trending"
+        title="Trending"
       />
     </div>
     <div class="top-airing">
       <TitleCarousel
+        title="Top Airing"
         resource="anime"
         :filter="[
           { attribute: 'status', value: 'current' },
@@ -24,6 +26,7 @@
     </div>
     <div class="top-upcoming">
       <TitleCarousel
+        title="Top Upcoming"
         resource="anime"
         :filter="[{ attribute: 'status', value: 'upcoming' }]"
         :sort="['popularityRank']"
@@ -34,6 +37,7 @@
     </div>
     <div class="top-rated">
       <TitleCarousel
+        title="Top Rated"
         resource="anime"
         :filter="[{ attribute: 'averageRating', value: '5..' }]"
         :sort="['-averageRating']"
@@ -44,6 +48,7 @@
     </div>
     <div class="most-popular">
       <TitleCarousel
+        title="Most Popular"
         resource="anime"
         :sort="['popularityRank']"
         :perPage="7"
@@ -90,11 +95,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.home-wrapper {
   display: flex;
-  width: 95%;
-  max-width: 1920px;
-  margin: 0 auto;
   justify-items: center;
   flex-direction: column;
 }

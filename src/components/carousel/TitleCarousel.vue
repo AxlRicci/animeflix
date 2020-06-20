@@ -1,25 +1,48 @@
 <template>
-  <div>
-    <Carousel
-      :perPage="perPage"
-      :navigationEnabled="true"
-      :paginationEnabled="false"
-      @navigation-click="logit"
-      @pageChange="pageHandler"
+  <div class="title-carousel--wrapper">
+    <div class="title-carousel--title">
+      <h2>{{ title }}</h2>
+    </div>
+    <div
+      @mouseenter="toggleNav('enter')"
+      @mouseleave="toggleNav('leave')"
+      class="title-carousel--carousel"
     >
-      <Slide
-        v-for="item in items"
-        :key="item.attributes.id"
-        @slide-click="selectItem"
-        :data-id="item.id"
+      <div
+        v-if="navActive"
+        @click="changePage('prev')"
+        class="carousel-nav carousel-nav__prev"
       >
-        <img
-          :style="imgStyle"
-          :src="item.attributes.posterImage.small"
-          alt=""
-        />
-      </Slide>
-    </Carousel>
+        <img src="@/assets/arrow_back.svg" alt="" />
+      </div>
+      <Carousel
+        :perPage="perPage"
+        :paginationEnabled="false"
+        @navigation-click="logit"
+        @pageChange="pageHandler"
+        v-model="pageNum"
+      >
+        <Slide
+          v-for="item in items"
+          :key="item.attributes.id"
+          @slide-click="selectItem"
+          :data-id="item.id"
+        >
+          <img
+            :style="imgStyle"
+            :src="item.attributes.posterImage.small"
+            alt=""
+          />
+        </Slide>
+      </Carousel>
+      <div
+        @click="changePage('next')"
+        v-if="navActive"
+        class="carousel-nav carousel-nav__next"
+      >
+        <img src="@/assets/arrow_forward.svg" alt="" />
+      </div>
+    </div>
     <div
       v-if="this.selectedItem && this.panelState"
       class="carousel-info-panel--wrapper"
@@ -75,6 +98,10 @@ export default {
     panelState: {
       type: Boolean,
       required: true
+    },
+    title: {
+      type: String,
+      required: false
     }
   },
   data() {
@@ -82,7 +109,9 @@ export default {
       items: [],
       selectedItem: {},
       lastCall: '',
-      nextCall: ''
+      nextCall: '',
+      pageNum: 0,
+      navActive: false
     }
   },
   created() {
@@ -126,6 +155,20 @@ export default {
   methods: {
     logit(stuff) {
       console.log(stuff)
+    },
+    changePage(type) {
+      if (type == 'next') {
+        this.pageNum += 1
+      } else if (type == 'prev') {
+        this.pageNum -= 1
+      }
+    },
+    toggleNav(type) {
+      if (type == 'enter') {
+        this.navActive = true
+      } else if (type == 'leave') {
+        this.navActive = false
+      }
     },
     getAdditionalTitles() {
       if (this.lastCall !== this.nextCall) {
@@ -186,6 +229,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title-carousel {
+  &--wrapper {
+    width: 100%;
+  }
+
+  &--title {
+    text-align: left;
+    margin: 10px 0 10px 0;
+    color: #fff;
+  }
+  &--carousel {
+    position: relative;
+  }
+}
+
+.carousel-nav {
+  position: absolute;
+  z-index: 2;
+  height: 100%;
+  width: 75px;
+  background: rgba(55, 55, 55, 0.5);
+  display: flex;
+  justify-content: center;
+  &__prev {
+    top: 0;
+    left: 0;
+  }
+  &__next {
+    top: 0;
+    right: 0;
+  }
+}
+
 .carousel-info-panel--wrapper {
   height: 588px;
 }

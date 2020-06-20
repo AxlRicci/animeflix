@@ -13,19 +13,27 @@
     </div>
     <div class="nav--right-wrapper">
       <div class="nav--search">
-        <input
-          v-model="search"
-          v-on-clickaway="toggleSearch"
+        <div
+          class="nav--search__active"
           v-if="searchToggle"
-          type="text"
-          placeholder="Search"
-        />
-        <img
+          v-on-clickaway="toggleSearch"
+        >
+          <img class="search-active--image" src="@/assets/search.svg" alt="" />
+          <input
+            class="search-active--input"
+            v-model="search"
+            type="text"
+            placeholder="Search"
+          />
+          <img @click="clearSearch" src="@/assets/clear.svg" alt="" />
+        </div>
+        <div
+          class="nav--search__inactive"
           v-if="!searchToggle"
           @click="toggleSearch"
-          src="@/assets/search.svg"
-          alt=""
-        />
+        >
+          <img src="@/assets/search.svg" alt="" />
+        </div>
       </div>
     </div>
   </div>
@@ -49,6 +57,10 @@ export default {
       if (!this.search) {
         this.searchToggle = !this.searchToggle
       }
+    },
+    clearSearch() {
+      this.search = ''
+      this.searchToggle = false
     }
   }
 }
@@ -60,6 +72,9 @@ export default {
     display: flex;
     justify-content: space-between;
     color: #fff;
+    width: 95vw;
+    margin: 0 auto;
+    padding: 20px;
   }
 
   &--left-wrapper {
@@ -70,10 +85,17 @@ export default {
   &--right-wrapper {
     display: flex;
     align-content: center;
+    margin-right: 30px;
   }
 
   &--search {
     align-self: center;
+    &__active {
+      display: flex;
+      background: #000;
+      border: 1px solid #fff;
+      padding: 5px;
+    }
   }
   &--logo {
     & h1 {
@@ -93,6 +115,16 @@ export default {
     &-item {
       margin-right: 20px;
     }
+  }
+}
+
+.search-active {
+  &--input {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
   }
 }
 </style>

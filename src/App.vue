@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="container">
     <div id="app">
       <div id="nav">
         <Navbar />
       </div>
-      <router-view />
+      <router-view class="content" />
     </div>
   </div>
 </template>
@@ -19,11 +19,15 @@ export default {
 </script>
 
 <style>
-* {
-  margin: 0;
-}
 html {
   background: #141414;
+}
+.container {
+  width: 95vw;
+  margin: 0 auto;
+}
+.content {
+  margin-top: 100px;
 }
 
 #app {
@@ -35,8 +39,12 @@ html {
 }
 
 #nav {
-  padding: 30px;
   background: #141414;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: 100%;
 }
 
 #nav a {
