@@ -211,12 +211,12 @@ export default {
           this.perPage = 4
           break
         case ww <= 1024:
-          this.imgWidth = 200
+          this.imgWidth = 190
           this.perPage = 5
           break
         case ww <= 1440:
-          this.imgWidth = 250
-          this.perPage = 5
+          this.imgWidth = 230
+          this.perPage = 6
           break
         case ww <= 1920:
           this.imgWidth = 265
