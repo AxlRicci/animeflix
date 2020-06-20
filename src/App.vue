@@ -1,11 +1,7 @@
 <template>
-  <div class="container">
-    <div id="app">
-      <div id="nav">
-        <Navbar />
-      </div>
-      <router-view class="content" />
-    </div>
+  <div id="app" class="container">
+    <Navbar />
+    <router-view class="content" />
   </div>
 </template>
 
@@ -19,40 +15,32 @@ export default {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 html {
   background: #141414;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 .container {
-  width: 95vw;
+  width: 99vw;
   margin: 0 auto;
 }
 .content {
   margin-top: 100px;
 }
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@media (min-width: 640px) {
 }
 
-#nav {
-  background: #141414;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 100;
-  width: 100%;
+@media (min-width: 768px) {
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+@media (min-width: 1024px) {
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+@media (min-width: 1280px) {
 }
 </style>

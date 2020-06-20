@@ -95,9 +95,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home-wrapper {
-  display: flex;
-  justify-items: center;
-  flex-direction: column;
+@media (min-width: 640px) {
+  .home-wrapper {
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 1024px) {
+}
+
+@media (min-width: 1280px) {
 }
 </style>

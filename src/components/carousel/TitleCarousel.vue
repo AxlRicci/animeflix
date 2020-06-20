@@ -153,9 +153,6 @@ export default {
     }
   },
   methods: {
-    logit(stuff) {
-      console.log(stuff)
-    },
     changePage(type) {
       if (type == 'next') {
         this.pageNum += 1
@@ -229,44 +226,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title-carousel {
-  &--wrapper {
-    width: 100%;
+@media (min-width: 640px) {
+  .title-carousel {
+    &--wrapper {
+      width: 100%;
+    }
+
+    &--title {
+      text-align: left;
+      margin: 10px 0 10px 0;
+      color: #fff;
+    }
+    &--carousel {
+      position: relative;
+    }
   }
 
-  &--title {
-    text-align: left;
-    margin: 10px 0 10px 0;
-    color: #fff;
+  .carousel-nav {
+    position: absolute;
+    z-index: 2;
+    height: 100%;
+    width: 75px;
+    background: rgba(55, 55, 55, 0.5);
+    display: flex;
+    justify-content: center;
+    &__prev {
+      top: 0;
+      left: 0;
+    }
+    &__next {
+      top: 0;
+      right: 0;
+    }
   }
-  &--carousel {
-    position: relative;
+
+  .carousel-info-panel--wrapper {
+    height: 588px;
+  }
+  .img {
+    width: 354px;
+    height: auto;
   }
 }
 
-.carousel-nav {
-  position: absolute;
-  z-index: 2;
-  height: 100%;
-  width: 75px;
-  background: rgba(55, 55, 55, 0.5);
-  display: flex;
-  justify-content: center;
-  &__prev {
-    top: 0;
-    left: 0;
-  }
-  &__next {
-    top: 0;
-    right: 0;
-  }
+@media (min-width: 768px) {
 }
 
-.carousel-info-panel--wrapper {
-  height: 588px;
+@media (min-width: 1024px) {
 }
-.img {
-  width: 354px;
-  height: auto;
+
+@media (min-width: 1280px) {
 }
 </style>

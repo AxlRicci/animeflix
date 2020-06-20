@@ -2,12 +2,11 @@
   <div class="nav--wrapper">
     <div class="nav--left-wrapper">
       <div class="nav--logo">
-        <h1>AnimeFlix</h1>
+        <img src="@/assets/live_tv.svg" alt="" />
       </div>
       <div class="nav--links">
         <ul class="nav--list">
-          <li class="nav--list-item nav--list-item__home">Anime</li>
-          <li class="nav--list-item nav--list-item__home">Manga</li>
+          <li class="nav--list-item nav--list-item__home">Genres</li>
         </ul>
       </div>
     </div>
@@ -72,9 +71,8 @@ export default {
     display: flex;
     justify-content: space-between;
     color: #fff;
-    width: 95vw;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100%;
+    padding: 10px;
   }
 
   &--left-wrapper {
@@ -85,7 +83,6 @@ export default {
   &--right-wrapper {
     display: flex;
     align-content: center;
-    margin-right: 30px;
   }
 
   &--search {
@@ -94,7 +91,6 @@ export default {
       display: flex;
       background: #000;
       border: 1px solid #fff;
-      padding: 5px;
     }
   }
   &--logo {
@@ -105,6 +101,7 @@ export default {
 
   &--links {
     align-self: center;
+    display: none;
   }
 
   &--list {
@@ -126,5 +123,71 @@ export default {
     font-size: 14px;
     outline: none;
   }
+}
+@media (min-width: 640px) {
+  .nav {
+    &--links {
+      display: block;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 1024px) {
+}
+
+@media (min-width: 1280px) {
+  // .nav {
+  //   &--wrapper {
+  //     display: flex;
+  //     justify-content: space-between;
+  //     color: #fff;
+  //     width: 95vw;
+  //     margin: 0 auto;
+  //     padding: 20px;
+  //   }
+
+  //   &--left-wrapper {
+  //     display: flex;
+  //     align-content: center;
+  //   }
+
+  //   &--right-wrapper {
+  //     display: flex;
+  //     align-content: center;
+  //     margin-right: 30px;
+  //   }
+
+  //   &--search {
+  //     align-self: center;
+  //     &__active {
+  //       display: flex;
+  //       background: #000;
+  //       border: 1px solid #fff;
+  //       padding: 5px;
+  //     }
+  //   }
+  //   &--logo {
+  //     & h1 {
+  //       margin: 0px;
+  //     }
+  //   }
+
+  //   &--links {
+  //     align-self: center;
+  //   }
+
+  //   &--list {
+  //     display: flex;
+  //     list-style-type: none;
+  //     margin: 0;
+
+  //     &-item {
+  //       margin-right: 20px;
+  //     }
+  //   }
+  // }
 }
 </style>
