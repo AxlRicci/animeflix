@@ -15,6 +15,7 @@
         </span>
       </button>
       <button class="overview-actions--item overview-actions--item__list">
+        <div class="button button--add"></div>
         <span class="button button--add">
           <img
             class="button-icon button-icon--add"
@@ -64,52 +65,58 @@ export default {
 <style lang="scss" scoped>
 .overview-actions {
   &--wrapper {
-    display: flex;
-    justify-items: start;
-    flex-direction: column;
-  }
-
-  &--buttons {
-    display: flex;
-  }
-
-  &--streams {
-    display: flex;
-  }
-  &--item {
-    margin-right: 14px;
-    padding: 9px 26px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-
-    & p {
-      font-size: 24px;
-    }
-
-    &__stream {
-      background-color: #fff;
-    }
-
-    &__list {
-      background-color: #999;
-      color: #000;
-    }
+    display: none;
   }
 }
 
-.button {
-  display: flex;
-  justify-content: center;
-  margin: 0px;
+@media (min-width: 768px) {
+  .overview-actions {
+    &--wrapper {
+      display: flex;
+      justify-items: start;
+      flex-direction: column;
+    }
 
-  & p {
-    margin: auto 0;
+    &--buttons {
+      display: flex;
+    }
+
+    &--streams {
+      display: flex;
+    }
+    &--item {
+      margin-right: 1rem;
+      padding-left: calc(3.6rem / 2);
+      padding-right: calc(3.6rem / 2);
+      border: none;
+      border-radius: 0.3rem;
+      cursor: pointer;
+
+      &__stream {
+        background-color: #fff;
+      }
+
+      &__list {
+        background-color: #999;
+        color: #000;
+      }
+    }
   }
 
-  &-icon {
-    height: 34px;
-    margin: auto 0;
+  .button {
+    display: flex;
+    justify-content: center;
+    margin: 0px;
+
+    & p {
+      margin: auto 0;
+      font-size: 14px;
+    }
+
+    &-icon {
+      height: 34px;
+      margin: auto 0;
+    }
   }
 }
 </style>
