@@ -144,7 +144,7 @@ export default {
       return `${this.resource}?${params.join('&')}`
     },
     imgStyle() {
-      return `width: ${this.imgWidth}px; height: auto; margin-right: 5px;`
+      return `width: ${this.imgWidth}px; height: auto;`
     },
     pages() {
       return Math.floor(this.items.length / this.perPage)
@@ -198,31 +198,31 @@ export default {
     handleResize() {
       let ww = window.innerWidth
       switch (true) {
-        case ww <= 320:
-          this.imgWidth = 150
+        case ww < 425:
+          this.imgWidth = 148
           this.perPage = 2
           break
-        case ww <= 425:
+        case ww >= 425 && ww < 768:
           this.imgWidth = 130
           this.perPage = 3
           break
-        case ww <= 768:
+        case ww >= 768 && ww < 1024:
           this.imgWidth = 180
           this.perPage = 4
           break
-        case ww <= 1024:
-          this.imgWidth = 190
+        case ww >= 1024 && ww < 1440:
+          this.imgWidth = 195
           this.perPage = 5
           break
-        case ww <= 1440:
+        case ww >= 1440 && ww < 1920:
           this.imgWidth = 230
           this.perPage = 6
           break
-        case ww <= 1920:
+        case ww >= 1920 && ww < 2560:
           this.imgWidth = 265
           this.perPage = 7
           break
-        case ww <= 2560:
+        case ww >= 2560:
           this.imgWidth = 250
           this.perPage = 10
       }
